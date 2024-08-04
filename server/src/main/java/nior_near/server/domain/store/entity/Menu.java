@@ -29,7 +29,6 @@ public class Menu extends Time {
     private boolean stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 }

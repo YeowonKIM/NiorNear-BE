@@ -10,10 +10,10 @@ public class StoreAuth {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auth_id")
+    @JoinColumn(name = "auth_id", nullable = false)
     private Auth auth;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 }
