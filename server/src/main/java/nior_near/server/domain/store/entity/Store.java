@@ -21,10 +21,10 @@ public class Store extends Time {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @ColumnDefault("기본 이미지 링크")
+    @ColumnDefault("'기본 이미지 링크'")
     private String profileImage;
 
-    @ColumnDefault("기본 음식 이미지 링크")
+    @ColumnDefault("'기본 음식 이미지 링크'")
     private String thumbnail;
 
     @Column(nullable = false, length = 50)

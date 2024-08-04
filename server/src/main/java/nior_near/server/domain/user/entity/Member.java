@@ -35,24 +35,23 @@ public class Member extends Time {
     @ColumnDefault("0")
     private Long point;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'NONMEMBER'")
-    private UserAuthorization authorization;
+    @Column(nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'NONMEMBER'")
+    private UserAuthorization userAuthorization = UserAuthorization.NONMEMBER;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region; // 사용자가 선택한 지역
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "member")
     private Store store;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Letter> letterList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accountList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeStore> likeStoreList = new ArrayList<>();
 }

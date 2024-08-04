@@ -15,7 +15,7 @@ public class Menu extends Time {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @ColumnDefault("기본 이미지 링크")
+    @ColumnDefault("'기본 이미지 링크'")
     private String imageLink;
 
     @Column(nullable = false)

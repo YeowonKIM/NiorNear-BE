@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "orders") // 테이블 이름을 "orders"로 변경
 public class Order extends Time {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,7 @@ public class Order extends Time {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'CONFIRM'")
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.CONFIRM;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
