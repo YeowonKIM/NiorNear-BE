@@ -3,6 +3,7 @@ package nior_near.server.domain.order.entity;
 import jakarta.persistence.*;
 import nior_near.server.domain.store.entity.Region;
 
+@Entity
 public class PossiblePickUp {
 
     @Id

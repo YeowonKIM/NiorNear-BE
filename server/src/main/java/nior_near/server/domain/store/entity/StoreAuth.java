@@ -2,6 +2,7 @@ package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
 
+@Entity
 public class StoreAuth {
 
     @Id
