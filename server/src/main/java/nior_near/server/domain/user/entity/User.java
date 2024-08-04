@@ -1,9 +1,14 @@
 package nior_near.server.domain.user.entity;
 
 import jakarta.persistence.*;
+import nior_near.server.domain.letter.entity.Letter;
 import nior_near.server.domain.store.entity.Region;
+import nior_near.server.domain.store.entity.Store;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends Time {
@@ -38,4 +43,16 @@ public class User extends Time {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region; // 사용자가 선택한 지역
+
+    @OneToOne(mappedBy = "user")
+    private Store store;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Letter> letterList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accountList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeStore> likeStoreList = new ArrayList<>();
 }
