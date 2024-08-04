@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import nior_near.server.global.util.Time;
 
 @Entity
-public class Region extends Time {
+public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)

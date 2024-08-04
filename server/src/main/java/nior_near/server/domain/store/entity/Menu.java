@@ -1,7 +1,6 @@
 package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
-import nior_near.server.domain.store.entity.Store;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
 
