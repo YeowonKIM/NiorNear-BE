@@ -6,6 +6,9 @@ import nior_near.server.domain.user.entity.User;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Order extends Time {
     @Id
@@ -37,4 +40,7 @@ public class Order extends Time {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderMenu> orderMenuList = new ArrayList<>();
 }
