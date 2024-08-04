@@ -2,7 +2,7 @@ package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
 import nior_near.server.domain.order.entity.Order;
-import nior_near.server.domain.user.entity.User;
+import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -42,8 +42,8 @@ public class Store extends Time {
     private Long lowestPrice;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StoreAuth> storeAuthList = new ArrayList<>();

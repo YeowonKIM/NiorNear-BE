@@ -1,7 +1,7 @@
 package nior_near.server.domain.letter.entity;
 
 import jakarta.persistence.*;
-import nior_near.server.domain.user.entity.User;
+import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
 
 @Entity
@@ -20,6 +20,6 @@ public class Letter extends Time {
     private String imageLink;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 }
