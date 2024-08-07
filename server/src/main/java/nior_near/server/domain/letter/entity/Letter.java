@@ -16,8 +16,11 @@ public class Letter extends Time {
     @Column(nullable = false, length = 20)
     private String sender;
 
-    @Column(nullable = false)
-    private String imageLink;
+    @Column
+    private String imageLink; // 요리사 -> 사용자
+
+    @Column
+    private String text; // 사용자 -> 요리사
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
