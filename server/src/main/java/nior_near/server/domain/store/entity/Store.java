@@ -2,6 +2,7 @@ package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
 import nior_near.server.domain.order.entity.Order;
+import nior_near.server.domain.order.entity.Place;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
@@ -40,6 +41,10 @@ public class Store extends Time {
     private String message;
 
     private Long lowestPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id", nullable = false)
+    private Place place;
 
     @OneToOne
     @JoinColumn(name = "member_id")
