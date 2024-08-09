@@ -57,8 +57,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                 .profileImage(member.getProfileImage())
                 .temperature(BigDecimal.valueOf(36.5))
                 .message(companyChefRegistrationRequestDto.getMessage())
-//                .letter(getS3ImageLink(chefRegistrationRequestDto.getLetter())) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
-                .letter("테스트용 링크") // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
+                .letter(getS3ImageLink(companyChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                 .member(member)
                 .place(place)
                 .build()
@@ -109,8 +108,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                         .profileImage(member.getProfileImage())
                         .temperature(BigDecimal.valueOf(36.5))
                         .message(freelanceChefRegistrationRequestDto.getMessage())
-//                .letter(getS3ImageLink(chefRegistrationRequestDto.getLetter())) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
-                        .letter("테스트용 링크") // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
+                        .letter(getS3ImageLink(freelanceChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                         .member(member)
                         .place(place)
                         .build()
@@ -169,9 +167,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         return storeAuthList;
     }
 
-    private String getS3ImageLink(MultipartFile multipartFile) throws IOException {
+    private String getS3ImageLink(MultipartFile multipartFile, String dirName) throws IOException {
 
-        AwsS3 storeImage = (AwsS3) fileService.upload(multipartFile, "storeImage");
+        AwsS3 storeImage = (AwsS3) fileService.upload(multipartFile, dirName);
 
         return storeImage.getPath();
 
