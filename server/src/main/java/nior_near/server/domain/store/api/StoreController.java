@@ -26,9 +26,9 @@ public class StoreController {
     public BaseResponseDto<ChefRegistrationResponseDto> createStore(@ModelAttribute ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException {
 
         // 추후에 member 토큰에서 받아올 정보
-        Member member =  new Member();
+        Long memberId =  1L;
 
-        return storeCommandService.registerCompanyChef(member, chefRegistrationRequestDto);
+        return storeCommandService.registerCompanyChef(memberId, chefRegistrationRequestDto);
 
     }
 

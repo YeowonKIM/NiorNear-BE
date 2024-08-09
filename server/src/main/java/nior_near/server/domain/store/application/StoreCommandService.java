@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public interface StoreCommandService {
 
-    BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Member member, ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException;
+    BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Long memberId, ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException;
 //    BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(Member member, ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException;
 
 }

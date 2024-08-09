@@ -9,6 +9,7 @@ import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.*;
 import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.AwsS3;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
@@ -34,9 +35,12 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final AuthRepository authRepository;
     private final StoreRegionRepository storeRegionRepository;
     private final StoreAuthRepository storeAuthRepository;
+    private final MemberRepository memberRepository;
 
     @Override
-    public BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Member member, ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Long memberId, ChefRegistrationRequestDto chefRegistrationRequestDto) throws IOException {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         List<Auth> authList = new ArrayList<>();
 
