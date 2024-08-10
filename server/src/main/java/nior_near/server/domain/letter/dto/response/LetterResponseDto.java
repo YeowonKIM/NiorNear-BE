@@ -19,5 +19,13 @@ public class LetterResponseDto {
 
     public static LetterResponseDto of(Letter letter) {
 
+        return LetterResponseDto.builder()
+                .letterId(letter.getId())
+                .senderId(letter.getSender().getId())
+                .senderName(letter.getSenderName())
+                .status(letter.getStatus().getValue())
+                .imageUrl(letter.getImageLink())
+                .createAt(letter.getCreatedAt())
+                .build();
     }
 }
