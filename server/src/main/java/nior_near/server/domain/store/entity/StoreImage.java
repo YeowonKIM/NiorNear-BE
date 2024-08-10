@@ -1,8 +1,11 @@
 package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class StoreImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +18,10 @@ public class StoreImage {
 
     @Column(nullable = false)
     private String imageLink;
+
+    @Builder
+    public StoreImage(Store store, String imageLink) {
+        this.store = store;
+        this.imageLink = imageLink;
+    }
 }

@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.entity.Place;
 import nior_near.server.domain.store.dto.request.CompanyChefRegistrationRequestDto;
 import nior_near.server.domain.store.dto.request.FreelanceChefRegistrationRequestDto;
+import nior_near.server.domain.store.dto.request.MenuAddRequestDto;
 import nior_near.server.domain.store.dto.response.ChefRegistrationResponseDto;
+import nior_near.server.domain.store.dto.response.MenuAddResponseDto;
 import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.*;
@@ -38,6 +40,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final StoreRegionRepository storeRegionRepository;
     private final StoreAuthRepository storeAuthRepository;
     private final MemberRepository memberRepository;
+    private final MenuRepository menuRepository;
+    private final StoreImageRepository storeImageRepository;
 
     @Override
     @Transactional
@@ -134,6 +138,32 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
+
+    }
+
+    @Override
+    @Transactional
+    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, MenuAddRequestDto menuAddRequestDto) throws IOException {
+
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
+
+        Menu menu = menuRepository.save(
+                Menu.builder().store(store)
+                        .oneServing(menuAddRequestDto.getMenuOneServing())
+                        .imageLink(getS3ImageLink(menuAddRequestDto.getMenuImage(), "menus"))
+                        .introduction(menuAddRequestDto.getMenuIntroduction())
+                        .name(menuAddRequestDto.getMenuName())
+                        .build()
+        );
+
+        // 메뉴 음식 사진 storeImage 에 등록해놓기 - store 조회할 때 필요
+         storeImageRepository.save(
+                StoreImage.builder()
+                        .store(store)
+                        .imageLink(menu.getImageLink()).build()
+        );
+
+        return BaseResponseDto.onSuccess(MenuAddResponseDto.builder().menuId(menu.getId()).build(), ResponseCode.OK);
 
     }
 
