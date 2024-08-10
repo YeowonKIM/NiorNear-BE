@@ -48,8 +48,6 @@ public class Store extends Time {
     @Column(nullable = false)
     private String letter;
 
-    private Long lowestPrice;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
