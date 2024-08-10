@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -143,9 +144,15 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Override
     @Transactional
-    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, MenuAddRequestDto menuAddRequestDto) throws IOException {
+    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, Long memberId, MenuAddRequestDto menuAddRequestDto) throws IOException {
 
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
+
+        // 권한 확인
+        if (!store.getMember().equals(member)) {
+            throw new StoreHandler(ResponseCode.STORE_UNAUTHORIZED);
+        }
 
         Menu menu = menuRepository.save(
                 Menu.builder().store(store)

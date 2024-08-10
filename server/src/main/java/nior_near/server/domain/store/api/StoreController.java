@@ -48,7 +48,12 @@ public class StoreController {
     @PostMapping("/{storeId}/menu")
     public BaseResponseDto<MenuAddResponseDto> addMenu(@ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
 
-        return storeCommandService.addMenu(storeId, menuAddRequestDto);
+        /**
+         * TODO: 추후에 accessToken 에서 받아올 정보
+         */
+        Long memberId =  1L;
+
+        return storeCommandService.addMenu(storeId, memberId, menuAddRequestDto);
 
     }
 

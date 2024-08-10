@@ -15,5 +15,5 @@ public interface StoreCommandService {
 
     BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(Long memberId, FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException;
 
-    BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, MenuAddRequestDto menuAddRequestDto) throws IOException;
+    BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, Long memberId, MenuAddRequestDto menuAddRequestDto) throws IOException;
 }
