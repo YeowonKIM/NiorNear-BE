@@ -19,7 +19,11 @@ public class Menu extends Time {
     private String imageLink;
 
     @Column(nullable = false)
+    @ColumnDefault("1000")
     private Long price;
+
+    @Column(nullable = false)
+    private Integer oneServing; // 1인분 그램수
 
     private String introduction;
 
