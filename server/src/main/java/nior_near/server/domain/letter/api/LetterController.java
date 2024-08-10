@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.application.LetterService;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
+import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,6 @@ public class LetterController {
     @GetMapping
     BaseResponseDto<List<LetterResponseDto>> getAllLetters() {
 
-        return null;
+        return BaseResponseDto.onSuccess(letterService.getAllLetters(), ResponseCode.OK);
     }
 }
