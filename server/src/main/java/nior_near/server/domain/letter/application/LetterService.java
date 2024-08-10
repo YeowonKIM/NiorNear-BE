@@ -10,4 +10,5 @@ public interface LetterService {
 
     List<LetterResponseDto> getAllLetters();
     ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto);
+    Long updateLetterStatus(Long letterId);
 }

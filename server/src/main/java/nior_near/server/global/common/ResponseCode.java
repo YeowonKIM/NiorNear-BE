@@ -61,8 +61,8 @@ public enum ResponseCode {
     // Place Error
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "PLACE4001", "게시글이 없습니다."),
 
-    // Review Error
-    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW4001", "리뷰가 없습니다.");
+    // Letter Error
+    LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "LETTER4001", "편지가 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

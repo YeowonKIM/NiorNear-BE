@@ -25,8 +25,15 @@ public class LetterController {
         return BaseResponseDto.onSuccess(letterService.getAllLetters(), ResponseCode.OK);
     }
 
+    // @Operation(summary = "편지함 전체 조회")
+    @PutMapping("/{letterId}")
+    BaseResponseDto<Long> updateLetterStatus(@PathVariable Long letterId) {
+
+        return BaseResponseDto.onSuccess(letterService.updateLetterStatus(letterId), ResponseCode.OK);
+    }
+
     // @Operation(summary = "감사 편지 작성")
-    @PostMapping("/letters/thank")
+    @PostMapping("/thank")
     BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
 
         return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
