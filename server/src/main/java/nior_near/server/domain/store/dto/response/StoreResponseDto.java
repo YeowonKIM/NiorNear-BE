@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import nior_near.server.domain.store.entity.Menu;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -21,7 +20,7 @@ public class StoreResponseDto {
     Long placeId;
     String placeName;
     List<String> auths;
-    BigDecimal temperature;
+    double temperature;
     List<MenuItem> menus;
 
     @Getter
