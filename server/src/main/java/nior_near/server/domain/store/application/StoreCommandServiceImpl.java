@@ -10,6 +10,7 @@ import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.*;
 import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.entity.UserAuthorization;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.AwsS3;
 import nior_near.server.global.common.BaseResponseDto;
@@ -80,6 +81,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
         storeRegionRepository.saveAll(storeRegionList);
 
+        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
+
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
     }
 
@@ -127,6 +130,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         // 2. 만든 store 지역 매핑해서 StoreRegion 에 저장
         List<Region> regions = convertToRegion(freelanceChefRegistrationRequestDto.getRegionId1(), freelanceChefRegistrationRequestDto.getRegionId2(), freelanceChefRegistrationRequestDto.getRegionId3());
         storeRegionRepository.saveAll(convertToStoreRegion(store, regions));
+
+        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
 
