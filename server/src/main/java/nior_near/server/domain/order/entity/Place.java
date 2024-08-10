@@ -2,9 +2,10 @@ package nior_near.server.domain.order.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity @Getter
 @NoArgsConstructor
 public class Place {
     @Id
