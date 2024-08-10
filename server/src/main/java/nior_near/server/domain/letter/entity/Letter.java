@@ -1,10 +1,16 @@
 package nior_near.server.domain.letter.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@Getter
+@DynamicInsert
+@DynamicUpdate
 public class Letter extends Time {
 
     @Id
