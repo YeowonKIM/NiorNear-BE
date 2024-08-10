@@ -1,7 +1,10 @@
 package nior_near.server.domain.letter.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.DynamicInsert;
@@ -9,6 +12,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 public class Letter extends Time {
