@@ -26,7 +26,7 @@ public class LetterController {
     }
 
     // @Operation(summary = "감사 편지 작성")
-    @PostMapping
+    @PostMapping("/letters/thank")
     BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
 
         return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
