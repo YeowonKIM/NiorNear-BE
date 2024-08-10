@@ -2,12 +2,11 @@ package nior_near.server.domain.letter.api;
 
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.application.LetterService;
+import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,12 @@ public class LetterController {
     BaseResponseDto<List<LetterResponseDto>> getAllLetters() {
 
         return BaseResponseDto.onSuccess(letterService.getAllLetters(), ResponseCode.OK);
+    }
+
+    // @Operation(summary = "감사 편지 작성")
+    @PostMapping
+    BaseResponseDto<Long> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
+
+        return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
     }
 }
