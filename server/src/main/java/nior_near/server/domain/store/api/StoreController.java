@@ -27,7 +27,9 @@ public class StoreController {
     @PostMapping("/near-company")
     public BaseResponseDto<ChefRegistrationResponseDto> createCompanyStore(@ModelAttribute CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
 
-        // 추후에 member 토큰에서 받아올 정보
+        /**
+         * TODO: 추후에 accessToken 에서 받아올 정보
+         */
         Long memberId =  1L;
 
         return storeCommandService.registerCompanyChef(memberId, companyChefRegistrationRequestDto);
@@ -37,7 +39,9 @@ public class StoreController {
     @PostMapping("/freelance")
     public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
 
-        // 추후에 member 토큰에서 받아올 정보
+        /**
+         * TODO: 추후에 accessToken 에서 받아올 정보
+         */
         Long memberId = 2L;
 
         return storeCommandService.registerFreelanceChef(memberId, freelanceChefRegistrationRequestDto);
@@ -47,7 +51,12 @@ public class StoreController {
     @PostMapping("/{storeId}/menu")
     public BaseResponseDto<MenuAddResponseDto> addMenu(@ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
 
-        return storeCommandService.addMenu(storeId, menuAddRequestDto);
+        /**
+         * TODO: 추후에 accessToken 에서 받아올 정보
+         */
+        Long memberId =  1L;
+
+        return storeCommandService.addMenu(storeId, memberId, menuAddRequestDto);
 
     }
 
