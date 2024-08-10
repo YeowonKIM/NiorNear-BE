@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.application.LetterService;
 import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
+import nior_near.server.domain.letter.dto.response.ThankLetterResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class LetterController {
 
     // @Operation(summary = "감사 편지 작성")
     @PostMapping
-    BaseResponseDto<Long> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
+    BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
 
         return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
     }

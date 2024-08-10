@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
+import nior_near.server.domain.letter.dto.response.ThankLetterResponseDto;
 import nior_near.server.domain.letter.entity.Letter;
 import nior_near.server.domain.letter.entity.LetterStatus;
 import nior_near.server.domain.letter.repository.LetterRepository;
@@ -47,17 +48,17 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional
-    public Long registerThankLetter(ThankLetterRequestDto thankLetterDto) {
+    public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto) {
 
         // TODO: JWT 토큰에서 사용자 정보 가져오기
         long memberId = 0L;
 
         // FIXME: Member Handler로 변경
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(EntityNotFoundException::new);
 
         Member receiver = memberRepository.findById(thankLetterDto.getReceiverId())
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(EntityNotFoundException::new);
 
         Letter letter = Letter.builder()
                 .senderName(member.getName())
@@ -67,6 +68,10 @@ public class LetterServiceImpl implements LetterService {
                 .receiver(receiver)
                 .build();
 
-        return letterRepository.save(letter).getId();
+        Letter updatedLetter = letterRepository.save(letter);
+
+        return ThankLetterResponseDto.builder()
+                .letterId(updatedLetter.getId())
+                .build();
     }
 }
