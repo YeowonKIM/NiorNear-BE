@@ -41,7 +41,7 @@ public class LetterServiceImpl implements LetterService {
         Pageable pageable = PageRequest.of(0, AllLettersLimit);
 
         // 해당 userId가 receiver이고 생성일이 1년이 되지 않았고, 그리고 최대 LIMIT 개의 편지를 조회
-        List<Letter> letters = letterRepository.findALlByReceiverId(memberId, startDate, pageable);
+        List<Letter> letters = letterRepository.findAllByReceiverId(memberId, startDate, pageable);
 
         return letters.stream()
                 .map(LetterResponseDto::of)
