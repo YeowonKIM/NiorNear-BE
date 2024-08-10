@@ -5,11 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.entity.Place;
 import nior_near.server.domain.store.dto.request.CompanyChefRegistrationRequestDto;
 import nior_near.server.domain.store.dto.request.FreelanceChefRegistrationRequestDto;
+import nior_near.server.domain.store.dto.request.MenuAddRequestDto;
 import nior_near.server.domain.store.dto.response.ChefRegistrationResponseDto;
+import nior_near.server.domain.store.dto.response.MenuAddResponseDto;
 import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.*;
 import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.entity.UserAuthorization;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.AwsS3;
 import nior_near.server.global.common.BaseResponseDto;
@@ -23,6 +26,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -37,6 +41,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final StoreRegionRepository storeRegionRepository;
     private final StoreAuthRepository storeAuthRepository;
     private final MemberRepository memberRepository;
+    private final MenuRepository menuRepository;
+    private final StoreImageRepository storeImageRepository;
 
     @Override
     @Transactional
@@ -79,6 +85,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         List<StoreRegion> storeRegionList = convertToStoreRegion(store, regions);
 
         storeRegionRepository.saveAll(storeRegionList);
+
+        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
     }
@@ -128,7 +136,41 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         List<Region> regions = convertToRegion(freelanceChefRegistrationRequestDto.getRegionId1(), freelanceChefRegistrationRequestDto.getRegionId2(), freelanceChefRegistrationRequestDto.getRegionId3());
         storeRegionRepository.saveAll(convertToStoreRegion(store, regions));
 
+        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
+
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
+
+    }
+
+    @Override
+    @Transactional
+    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, Long memberId, MenuAddRequestDto menuAddRequestDto) throws IOException {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
+
+        // 권한 확인
+        if (!store.getMember().equals(member)) {
+            throw new StoreHandler(ResponseCode.STORE_UNAUTHORIZED);
+        }
+
+        Menu menu = menuRepository.save(
+                Menu.builder().store(store)
+                        .oneServing(menuAddRequestDto.getMenuOneServing())
+                        .imageLink(getS3ImageLink(menuAddRequestDto.getMenuImage(), "menus"))
+                        .introduction(menuAddRequestDto.getMenuIntroduction())
+                        .name(menuAddRequestDto.getMenuName())
+                        .build()
+        );
+
+        // 메뉴 음식 사진 storeImage 에 등록해놓기 - store 조회할 때 필요
+         storeImageRepository.save(
+                StoreImage.builder()
+                        .store(store)
+                        .imageLink(menu.getImageLink()).build()
+        );
+
+        return BaseResponseDto.onSuccess(MenuAddResponseDto.builder().menuId(menu.getId()).build(), ResponseCode.OK);
 
     }
 

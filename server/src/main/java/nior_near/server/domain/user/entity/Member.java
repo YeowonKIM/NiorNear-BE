@@ -56,4 +56,8 @@ public class Member extends Time {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeStore> likeStoreList = new ArrayList<>();
+
+    public void setUserAuthorization(UserAuthorization userAuthorization) {
+        this.userAuthorization = userAuthorization;
+    }
 }
