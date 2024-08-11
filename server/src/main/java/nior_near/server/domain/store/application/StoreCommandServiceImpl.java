@@ -80,6 +80,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         List<StoreAuth> storeAuthList = convertToStoreAuth(store, authList);
         storeAuthRepository.saveAll(storeAuthList);
 
+        // 멤버 권한 요리사로 변경
+        member.setUserAuthorization(UserAuthorization.CHEF);
+
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
     }
 
@@ -125,6 +128,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         authList.add(authRepository.findById(freelanceChefRegistrationRequestDto.getAuth()).orElseThrow(() -> new StoreHandler(ResponseCode.AUTH_NOT_FOUND)));
 
         storeAuthRepository.saveAll(convertToStoreAuth(store, authList));
+
+        // 멤버 권한 요리사로 변경
+        member.setUserAuthorization(UserAuthorization.CHEF);
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
 
