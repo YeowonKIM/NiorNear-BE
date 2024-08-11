@@ -1,9 +1,12 @@
 package nior_near.server.domain.order.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import nior_near.server.domain.store.entity.Menu;
 
 @Entity
+@NoArgsConstructor
 public class OrderMenu {
 
     @Id
@@ -21,4 +24,11 @@ public class OrderMenu {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    @Builder
+    public OrderMenu(Order order, Menu menu, Integer quantity) {
+        this.order = order;
+        this.menu = menu;
+        this.quantity = quantity;
+    }
 }
