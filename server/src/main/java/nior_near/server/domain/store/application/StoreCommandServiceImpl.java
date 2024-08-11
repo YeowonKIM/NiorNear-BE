@@ -61,7 +61,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                 .title(companyChefRegistrationRequestDto.getShortDescription())
                 .introduction(companyChefRegistrationRequestDto.getDetailedDescription())
                 .profileImage(member.getProfileImage())
-                .temperature(BigDecimal.valueOf(36.5))
                 .message(companyChefRegistrationRequestDto.getMessage())
                 .letter(getS3ImageLink(companyChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                 .member(member)
@@ -114,7 +113,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                         .title(freelanceChefRegistrationRequestDto.getShortDescription())
                         .introduction(freelanceChefRegistrationRequestDto.getDetailedDescription())
                         .profileImage(member.getProfileImage())
-                        .temperature(BigDecimal.valueOf(36.5))
                         .message(freelanceChefRegistrationRequestDto.getMessage())
                         .letter(getS3ImageLink(freelanceChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                         .member(member)

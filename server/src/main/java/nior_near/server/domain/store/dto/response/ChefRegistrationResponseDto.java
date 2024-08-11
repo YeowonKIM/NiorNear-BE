@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ChefRegistrationResponseDto {
-    Long storeId;
+    private Long storeId;
 }
