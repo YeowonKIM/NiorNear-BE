@@ -5,6 +5,6 @@ import nior_near.server.global.common.BaseResponseDto;
 
 public interface StoreQueryService {
 
-    public BaseResponseDto<StoreResponseDto> getStore(Long storeId);
+    BaseResponseDto<StoreResponseDto> getStore(Long storeId);
 
 }
