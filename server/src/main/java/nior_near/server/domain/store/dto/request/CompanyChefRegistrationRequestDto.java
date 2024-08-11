@@ -14,8 +14,6 @@ public class CompanyChefRegistrationRequestDto {
     private Long auth;
     private MultipartFile letter;
     private Long placeId;
-    private Long regionId1;
-    private Long regionId2;
-    private Long regionId3;
+    private Long regionId;
     private String message;
 }

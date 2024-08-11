@@ -38,7 +38,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final RegionRepository regionRepository;
     private final FileService fileService;
     private final AuthRepository authRepository;
-    private final StoreRegionRepository storeRegionRepository;
     private final StoreAuthRepository storeAuthRepository;
     private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
@@ -53,6 +52,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         List<Auth> authList = new ArrayList<>();
 
         // 1. store 저장
+        Region region = regionRepository.findById(companyChefRegistrationRequestDto.getRegionId()).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
         Place place = placeRepository.findById(companyChefRegistrationRequestDto.getPlaceId()).orElseThrow(() -> new StoreHandler(ResponseCode.PLACE_NOT_FOUND));
 
         Store store = storeRepository.save(
@@ -65,6 +65,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                 .letter(getS3ImageLink(companyChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                 .member(member)
                 .place(place)
+                .region(region)
                 .build()
         );
 
@@ -79,13 +80,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         List<StoreAuth> storeAuthList = convertToStoreAuth(store, authList);
         storeAuthRepository.saveAll(storeAuthList);
 
-        // 2. 만든 store 지역 매핑해서 StoreRegion 에 저장
-        List<Region> regions = convertToRegion(companyChefRegistrationRequestDto.getRegionId1(), companyChefRegistrationRequestDto.getRegionId2(), companyChefRegistrationRequestDto.getRegionId3());
-        List<StoreRegion> storeRegionList = convertToStoreRegion(store, regions);
-
-        storeRegionRepository.saveAll(storeRegionList);
-
-        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
+        // 멤버 권한 요리사로 변경
+        member.setUserAuthorization(UserAuthorization.CHEF);
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
     }
@@ -98,7 +94,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
         List<Auth> authList = new ArrayList<>();
 
-        // 0. place 생성 및 저장
+        // 0. place 생성 및 저장 & region 찾기
+        Region region = regionRepository.findById(freelanceChefRegistrationRequestDto.getRegionId()).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
+
         Place place = placeRepository.save(Place.builder()
                 .address(freelanceChefRegistrationRequestDto.getPlaceAddress())
                 .name(freelanceChefRegistrationRequestDto.getPlaceName())
@@ -117,6 +115,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                         .letter(getS3ImageLink(freelanceChefRegistrationRequestDto.getLetter(), "letters")) // 요리사 별 편지 이미지 저장(S3) - 그리고 그 링크를 Store 의 letter 에 저장
                         .member(member)
                         .place(place)
+                        .region(region)
                         .build()
         );
 
@@ -130,11 +129,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
         storeAuthRepository.saveAll(convertToStoreAuth(store, authList));
 
-        // 2. 만든 store 지역 매핑해서 StoreRegion 에 저장
-        List<Region> regions = convertToRegion(freelanceChefRegistrationRequestDto.getRegionId1(), freelanceChefRegistrationRequestDto.getRegionId2(), freelanceChefRegistrationRequestDto.getRegionId3());
-        storeRegionRepository.saveAll(convertToStoreRegion(store, regions));
-
-        member.setUserAuthorization(UserAuthorization.CHEF); // 멤버 권한 요리사로 변경
+        // 멤버 권한 요리사로 변경
+        member.setUserAuthorization(UserAuthorization.CHEF);
 
         return BaseResponseDto.onSuccess(ChefRegistrationResponseDto.builder().storeId(store.getId()).build(), ResponseCode.OK);
 
@@ -170,29 +166,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
         return BaseResponseDto.onSuccess(MenuAddResponseDto.builder().menuId(menu.getId()).build(), ResponseCode.OK);
 
-    }
-
-    private List<Region> convertToRegion(Long regionId1, Long regionId2, Long regionId3) {
-        List<Region> regionList = new ArrayList<>();
-        regionList.add(regionRepository.findById(regionId1).orElseThrow(() -> new StoreHandler(ResponseCode.REGION_NOT_FOUND)));
-        regionList.add(regionRepository.findById(regionId2).orElseThrow(() -> new StoreHandler(ResponseCode.REGION_NOT_FOUND)));
-        regionList.add(regionRepository.findById(regionId3).orElseThrow(() -> new StoreHandler(ResponseCode.REGION_NOT_FOUND)));
-
-        return regionList;
-    }
-
-    private List<StoreRegion> convertToStoreRegion(Store store, List<Region> regions) {
-        List<StoreRegion> storeRegionList = new ArrayList<>();
-        for(Region region: regions) {
-            storeRegionList.add(
-                    StoreRegion.builder()
-                    .region(region)
-                    .store(store)
-                    .build()
-            );
-        }
-
-        return storeRegionList;
     }
 
     private List<StoreAuth> convertToStoreAuth(Store store, List<Auth> auths) {
