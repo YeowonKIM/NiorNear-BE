@@ -16,7 +16,7 @@ public class StoreResponseDto {
     private List<String> images;
     private String title;
     private String introduction;
-    private List<String> possibleRegion;
+    private String possibleRegion;
     private Long placeId;
     private String placeName;
     private List<String> auths;
