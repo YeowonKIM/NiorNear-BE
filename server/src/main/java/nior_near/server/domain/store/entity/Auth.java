@@ -1,8 +1,9 @@
 package nior_near.server.domain.store.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
-@Entity
+@Entity @Getter
 public class Auth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
