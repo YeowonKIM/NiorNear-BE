@@ -9,28 +9,28 @@ import java.util.List;
 @Getter
 @Builder
 public class StoreResponseDto {
-    Long storeId;
-    String profileImage;
-    String name;
-    String storePhone;
-    List<String> images;
-    String title;
-    String introduction;
-    List<String> possibleRegion;
-    Long placeId;
-    String placeName;
-    List<String> auths;
+    private Long storeId;
+    private String profileImage;
+    private String name;
+    private String storePhone;
+    private List<String> images;
+    private String title;
+    private String introduction;
+    private List<String> possibleRegion;
+    private Long placeId;
+    private String placeName;
+    private List<String> auths;
     double temperature;
-    List<MenuItem> menus;
+    private List<MenuItem> menus;
 
     @Getter
     public static class MenuItem {
-        Long menuId;
-        String menuName;
-        String menuImage;
-        String menuIntroduction;
-        Long menuPrice;
-        Integer menuGram;
+        private Long menuId;
+        private String menuName;
+        private String menuImage;
+        private String menuIntroduction;
+        private Long menuPrice;
+        private Integer menuGram;
 
         public MenuItem(Menu menu) {
             this.menuId = menu.getId();

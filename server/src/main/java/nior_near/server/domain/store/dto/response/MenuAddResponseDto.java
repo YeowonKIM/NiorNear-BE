@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MenuAddResponseDto {
-    Long menuId;
+    private Long menuId;
 }
