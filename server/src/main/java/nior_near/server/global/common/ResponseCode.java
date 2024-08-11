@@ -49,6 +49,10 @@ public enum ResponseCode {
     NOT_HEART_EXCEPTION(HttpStatus.BAD_REQUEST, "STORE4005", "해당 상점은 관심 상점으로 등록되지 않았으므로 삭제할 수 없습니다."),
     PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "STORE4006", "page 와 size 는 0 과 양수만 입력 가능합니다."),
 
+    // Order Error
+    ORDER_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "존재하지 않는 주문입니다."),
+    ORDER_UNAUTHORIZED(HttpStatus.BAD_REQUEST, "STORE4002", "해당 주문에 접근할 권한이 없습니다."),
+
     // AuthCategory Error
     AUTH_NOT_FOUND(HttpStatus.BAD_REQUEST, "AUTH4001", "존재하지 않는 인증입니다."),
 

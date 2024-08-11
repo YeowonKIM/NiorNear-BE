@@ -3,8 +3,10 @@ package nior_near.server.domain.order.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.application.OrderCommandService;
+import nior_near.server.domain.order.application.OrderQueryService;
 import nior_near.server.domain.order.dto.request.OrderAddRequestDto;
 import nior_near.server.domain.order.dto.response.OrderAddResponseDto;
+import nior_near.server.domain.order.dto.response.OrderGetResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderCommandService orderCommandService;
+    private final OrderQueryService orderQueryService;
 
     @PostMapping
     public BaseResponseDto<OrderAddResponseDto> addOrder(@ModelAttribute OrderAddRequestDto orderAddRequestDto) {
@@ -26,5 +29,16 @@ public class OrderController {
 
         return orderCommandService.addOrder(memberId, orderAddRequestDto);
 
+    }
+
+    @GetMapping("/{orderId}")
+    public BaseResponseDto<OrderGetResponseDto> getOrder(@PathVariable("orderId") Long orderId) {
+
+        /**
+         * TODO: 추후에 accessToken 에서 받아올 정보
+         */
+        Long memberId = 3L;
+
+        return orderQueryService.getOrder(memberId, orderId);
     }
 }

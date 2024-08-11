@@ -2,10 +2,11 @@ package nior_near.server.domain.order.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nior_near.server.domain.store.entity.Menu;
 
-@Entity
+@Entity @Getter
 @NoArgsConstructor
 public class OrderMenu {
 
