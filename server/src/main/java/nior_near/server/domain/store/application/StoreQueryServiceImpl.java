@@ -26,7 +26,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         List<String> auths = store.getStoreAuthList().stream().map(storeAuth -> storeAuth.getAuth().getAuthName()).toList();
         List<String> images = store.getStoreImageList().stream().map(StoreImage::getImageLink).toList();
-        List<String> regions = store.getStoreRegionList().stream().map(storeRegion -> storeRegion.getRegion().getName()).toList();
         List<StoreResponseDto.MenuItem> menus = store.getMenuList().stream().map(StoreResponseDto.MenuItem::new).toList();
 
         StoreResponseDto storeResponseDto = StoreResponseDto.builder()
@@ -41,7 +40,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
                 .temperature(store.getTemperature())
                 .auths(auths)
                 .images(images)
-                .possibleRegion(regions)
+                .possibleRegion(store.getRegion().getName())
                 .menus(menus)
                 .build();
 
