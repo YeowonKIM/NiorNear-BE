@@ -15,8 +15,6 @@ public class FreelanceChefRegistrationRequestDto {
     private MultipartFile letter;
     private String placeName;
     private String placeAddress;
-    private Long regionId1;
-    private Long regionId2;
-    private Long regionId3;
+    private Long regionId;
     private String message;
 }

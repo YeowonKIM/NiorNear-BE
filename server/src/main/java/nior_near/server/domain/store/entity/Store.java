@@ -10,7 +10,6 @@ import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +37,8 @@ public class Store extends Time {
 
     private String introduction;
 
-    @Column(nullable = false, precision = 10, scale = 2)
     @ColumnDefault("36.5")
-    private BigDecimal temperature;
+    private double temperature = 36.5;
 
     @Column(nullable = false)
     private String message;
@@ -48,11 +46,13 @@ public class Store extends Time {
     @Column(nullable = false)
     private String letter;
 
-    private Long lowestPrice;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id", nullable = false)
     private Place place;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
     @OneToOne
     @JoinColumn(name = "member_id")
@@ -68,20 +68,17 @@ public class Store extends Time {
     private List<Menu> menuList = new ArrayList<>();
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StoreRegion> storeRegionList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orderList = new ArrayList<>(); // 요리사 입장에서 주문 리스트를 조회할 수 있으므로
 
     @Builder
-    public Store(String name, String profileImage, String title, String introduction, BigDecimal temperature, String message, Place place, Member member, String letter) {
+    public Store(String name, String profileImage, String title, String introduction, String message, Place place, Region region ,Member member, String letter) {
         this.name = name;
         this.profileImage = profileImage;
         this.title = title;
         this.introduction = introduction;
-        this.temperature = temperature;
         this.message = message;
         this.place = place;
+        this.region = region;
         this.member = member;
         this.letter = letter;
     }

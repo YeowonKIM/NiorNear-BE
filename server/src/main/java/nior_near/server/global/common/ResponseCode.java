@@ -42,24 +42,28 @@ public enum ResponseCode {
     S3_UPLOAD_FAIL(HttpStatus.BAD_REQUEST, "S34001", "파일 업로드에 실패했습니다."),
 
     // Store Error
-    SEARCH_KEYWORD_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "입력된 검색어가 없습니다."),
+    STORE_UNAUTHORIZED(HttpStatus.BAD_REQUEST, "STORE4001", "해당 STORE 에 접근할 권한이 없습니다."),
     PAGE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4002", "없는 페이지입니다."),
     STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4003", "존재하지 않는 상점입니다."),
     ALREADY_HEART_EXCEPTION(HttpStatus.BAD_REQUEST, "STORE4004", "이미 관심 상점으로 등록되었습니다."),
     NOT_HEART_EXCEPTION(HttpStatus.BAD_REQUEST, "STORE4005", "해당 상점은 관심 상점으로 등록되지 않았으므로 삭제할 수 없습니다."),
     PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "STORE4006", "page 와 size 는 0 과 양수만 입력 가능합니다."),
 
-    // Auth Error
+    // Order Error
+    ORDER_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "존재하지 않는 주문입니다."),
+    ORDER_UNAUTHORIZED(HttpStatus.BAD_REQUEST, "STORE4002", "해당 주문에 접근할 권한이 없습니다."),
+
+    // AuthCategory Error
     AUTH_NOT_FOUND(HttpStatus.BAD_REQUEST, "AUTH4001", "존재하지 않는 인증입니다."),
 
     // Menu Error
-    MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "MENU4001", "카테고리에 없는 메뉴입니다."),
+    MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "MENU4001", "해당 메뉴는 메뉴 목록에 없는 메뉴입니다."),
 
     // Region Error
     REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "카테고리에 없는 지역입니다."),
 
     // Place Error
-    PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "PLACE4001", "게시글이 없습니다."),
+    PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "PLACE4001", "카테고리에 없는 픽업 장소입니다."),
 
     // Letter Error
     LETTER_NOT_FOUND(HttpStatus.NOT_FOUND, "LETTER4001", "편지가 없습니다.");

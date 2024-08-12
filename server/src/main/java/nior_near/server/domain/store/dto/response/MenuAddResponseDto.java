@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ChefRegistrationResponseDto {
-    private Long storeId;
+public class MenuAddResponseDto {
+    private Long menuId;
 }
