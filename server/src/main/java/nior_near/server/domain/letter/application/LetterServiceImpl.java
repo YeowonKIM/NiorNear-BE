@@ -27,10 +27,9 @@ public class LetterServiceImpl implements LetterService {
 
     private final LetterRepository letterRepository;
     private final MemberRepository memberRepository;
-    private final int AllLettersLimit = 30;
 
     @Override
-    public List<LetterResponseDto> getAllLetters() {
+    public List<LetterResponseDto> getAllLetters(int page, int limit) {
 
         // TODO: JWT 토큰에서 사용자 정보 가져오기
         long memberId = 0L;
@@ -38,7 +37,7 @@ public class LetterServiceImpl implements LetterService {
         // TODO: 사용자가 없는 경우 예외처리
 
         LocalDateTime startDate = LocalDateTime.now().minusYears(1);
-        Pageable pageable = PageRequest.of(0, AllLettersLimit);
+        Pageable pageable = PageRequest.of(page, limit);
 
         // 해당 userId가 receiver이고 생성일이 1년이 되지 않았고, 그리고 최대 LIMIT 개의 편지를 조회
         List<Letter> letters = letterRepository.findAllByReceiverId(memberId, startDate, pageable);

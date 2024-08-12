@@ -17,12 +17,13 @@ import java.util.List;
 public class LetterController {
 
     private final LetterService letterService;
+    private final int MAILBOX_PAGE_LETTER_LIMIT = 9;
 
     // @Operation(summary = "편지함 전체 조회")
     @GetMapping
-    BaseResponseDto<List<LetterResponseDto>> getAllLetters() {
+    BaseResponseDto<List<LetterResponseDto>> getAllLetters(@RequestParam(defaultValue = "0") int page) {
 
-        return BaseResponseDto.onSuccess(letterService.getAllLetters(), ResponseCode.OK);
+        return BaseResponseDto.onSuccess(letterService.getAllLetters(page, MAILBOX_PAGE_LETTER_LIMIT), ResponseCode.OK);
     }
 
     // @Operation(summary = "편지함 전체 조회")
