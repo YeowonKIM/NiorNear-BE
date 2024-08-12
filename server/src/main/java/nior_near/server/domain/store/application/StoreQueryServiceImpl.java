@@ -2,9 +2,12 @@ package nior_near.server.domain.store.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nior_near.server.domain.order.entity.Place;
+import nior_near.server.domain.store.dto.response.PlaceRegionGetResponse;
 import nior_near.server.domain.store.dto.response.StoreResponseDto;
 import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
+import nior_near.server.domain.store.repository.PlaceRepository;
 import nior_near.server.domain.store.repository.StoreRepository;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
@@ -18,6 +21,7 @@ import java.util.List;
 public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
+    private final PlaceRepository placeRepository;
 
     @Override
     public BaseResponseDto<StoreResponseDto> getStore(Long storeId) {
@@ -45,6 +49,15 @@ public class StoreQueryServiceImpl implements StoreQueryService {
                 .build();
 
         return BaseResponseDto.onSuccess(storeResponseDto, ResponseCode.OK);
+    }
+
+    @Override
+    public BaseResponseDto<PlaceRegionGetResponse> getPlaceRegion(Long placeId) {
+
+        Place place = placeRepository.findById(placeId).orElseThrow(() -> new StoreHandler(ResponseCode.PLACE_NOT_FOUND));
+
+        return BaseResponseDto.onSuccess(PlaceRegionGetResponse.builder().regionId(place.getRegion().getId()).build(), ResponseCode.OK);
+
     }
 
 }
