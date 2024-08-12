@@ -31,6 +31,7 @@ public class StoreResponseDto {
         private String menuIntroduction;
         private Long menuPrice;
         private Integer menuGram;
+        private boolean isOrderable;
 
         public MenuItem(Menu menu) {
             this.menuId = menu.getId();
@@ -39,6 +40,7 @@ public class StoreResponseDto {
             this.menuIntroduction = menu.getIntroduction();
             this.menuPrice = menu.getPrice();
             this.menuGram = menu.getOneServing();
+            this.isOrderable = menu.isStock();
         }
     }
 }
