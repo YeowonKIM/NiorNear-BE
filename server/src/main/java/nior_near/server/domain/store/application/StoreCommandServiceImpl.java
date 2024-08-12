@@ -100,6 +100,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         Place place = placeRepository.save(Place.builder()
                 .address(freelanceChefRegistrationRequestDto.getPlaceAddress())
                 .name(freelanceChefRegistrationRequestDto.getPlaceName())
+                .region(region)
                 .build());
 
 
