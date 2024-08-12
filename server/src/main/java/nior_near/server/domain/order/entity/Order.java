@@ -1,6 +1,9 @@
 package nior_near.server.domain.order.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
@@ -9,7 +12,8 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@NoArgsConstructor
+@Entity @Getter
 @Table(name = "orders") // 테이블 이름을 "orders"로 변경
 public class Order extends Time {
     @Id
@@ -43,4 +47,14 @@ public class Order extends Time {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderMenu> orderMenuList = new ArrayList<>();
+
+    @Builder
+    public Order(Long totalPrice, String requestMessage, String phone, Place place, Member member, Store store) {
+        this.totalPrice = totalPrice;
+        this.requestMessage = requestMessage;
+        this.phone = phone;
+        this.place = place;
+        this.member = member;
+        this.store = store;
+    }
 }
