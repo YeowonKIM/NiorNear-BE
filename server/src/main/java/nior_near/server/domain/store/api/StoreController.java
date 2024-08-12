@@ -9,6 +9,7 @@ import nior_near.server.domain.store.dto.request.FreelanceChefRegistrationReques
 import nior_near.server.domain.store.dto.request.MenuAddRequestDto;
 import nior_near.server.domain.store.dto.response.ChefRegistrationResponseDto;
 import nior_near.server.domain.store.dto.response.MenuAddResponseDto;
+import nior_near.server.domain.store.dto.response.PlaceRegionGetResponse;
 import nior_near.server.domain.store.dto.response.StoreResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +65,13 @@ public class StoreController {
     public BaseResponseDto<StoreResponseDto> getStore(@PathVariable("storeId") Long storeId) {
 
         return storeQueryService.getStore(storeId);
+    }
+
+    @GetMapping("/near-company/{placeId}")
+    public BaseResponseDto<PlaceRegionGetResponse> getPlaceRegion(@PathVariable("placeId") Long placeId) {
+
+        return storeQueryService.getPlaceRegion(placeId);
+
     }
 
 
