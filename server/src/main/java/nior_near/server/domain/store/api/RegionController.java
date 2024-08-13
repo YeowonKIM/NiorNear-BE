@@ -7,10 +7,7 @@ import nior_near.server.domain.store.dto.response.RegionsGetResponseDto;
 import nior_near.server.domain.store.entity.Region;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,5 +47,11 @@ public class RegionController {
                         .upperRegions(upperRegionsDto)
                         .detailRegions(detailRegionsDto)
                 .build(), ResponseCode.OK);
+    }
+
+    @GetMapping("/{regionId}")
+    public BaseResponseDto<Region> getRegionById(@PathVariable Long regionId) {
+        Region region = regionService.getRegionById(regionId);
+        return BaseResponseDto.onSuccess(region, ResponseCode.OK);
     }
 }

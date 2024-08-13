@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RegionService {
     public List<Region> getRegionsByUpperId(Long upperId);
+
+    public Region getRegionById(Long regionId);
 }
