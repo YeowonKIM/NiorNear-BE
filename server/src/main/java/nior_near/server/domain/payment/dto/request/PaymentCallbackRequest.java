@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PaymentCallbackRequest {
-    private String paymentId;
-    private String orderId;
+    private String paymentUid;
+    private String orderUid;
 }

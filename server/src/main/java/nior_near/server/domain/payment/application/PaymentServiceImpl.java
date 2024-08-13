@@ -10,11 +10,9 @@ import nior_near.server.domain.order.entity.Order;
 import nior_near.server.domain.order.repository.OrderRepository;
 import nior_near.server.domain.payment.dto.request.RequestPayDto;
 import nior_near.server.domain.payment.dto.request.PaymentCallbackRequest;
-import nior_near.server.domain.payment.dto.response.OrderPayResponseDto;
 import nior_near.server.domain.payment.entity.PaymentStatus;
 import nior_near.server.domain.payment.exception.handler.PaymentHandler;
 import nior_near.server.domain.payment.repository.PaymentRepository;
-import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +31,15 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public RequestPayDto findRequestDto(String orderUid) {
         Order order = orderRepository.findOrderAndPaymentAndMember(orderUid)
-                .orElseThrow(() -> new PaymentHandler(ResponseCode.PAYMENT_NOT_FOUND));
+                .orElseThrow(() -> new PaymentHandler(ResponseCode.ORDER_NOT_FOUND));
 
         return RequestPayDto.builder()
                 .orderUid(order.getOrderUID())
-                .clientName(order.getMember().getName())
-                .totalPrice(order.getTotalPrice())
-                .clientNumber(order.getPhone())
+                .itemName(orderUid)
+                .buyerName(order.getMember().getName())
+                .paymentPrice(order.getTotalPrice())
+                .buyerEmail(order.getMember().getEmail())
+                .buyerPhone(order.getPhone())
                 .build();
 
     }
@@ -48,14 +48,15 @@ public class PaymentServiceImpl implements PaymentService{
     public IamportResponse<Payment> paymentByCallBack(PaymentCallbackRequest request) {
         try {
             // 결제조회
-            IamportResponse<com.siot.IamportRestClient.response.Payment> iamportResponse = iamportClient.paymentByImpUid(request.getPaymentId());
-            // 주문 내역 조회\
-            Order order = orderRepository.findOrderAndPayment(request.getPaymentId())
+            IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(request.getPaymentUid());
+            // 주문 내역 조회
+            Order order = orderRepository.findOrderAndPayment(request.getPaymentUid())
                     .orElseThrow(() -> new PaymentHandler(ResponseCode.PAYMENT_NOT_FOUND));
 
             // 결제 완료가 아니면
             if (!iamportResponse.getResponse().getStatus().equals("paid")) {
-                // 결제 내역 삭제
+                // 주문, 결제 내역 삭제
+                orderRepository.delete(order);
                 paymentRepository.delete(order.getPayment());
 
                 throw new PaymentHandler(ResponseCode.NOT_PAID);
@@ -68,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService{
 
             // 결제 금액 검증
             if (iamportPrice != price) {
+                orderRepository.delete(order);
                 paymentRepository.delete(order.getPayment());
 
                 // Iamport에서 결제금액 위변조로 의심되는 결제 금액 취소

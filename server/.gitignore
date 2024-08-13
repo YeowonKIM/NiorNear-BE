@@ -42,3 +42,4 @@ out/
 application.properties
 application-h2.properties
 application-s3.properties
+application-rds.properties
