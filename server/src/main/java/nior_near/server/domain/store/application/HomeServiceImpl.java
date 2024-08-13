@@ -3,6 +3,7 @@ package nior_near.server.domain.store.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.store.dto.response.HomeResponseDto;
+import nior_near.server.domain.store.dto.response.StoreSearchResponseDto;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.store.repository.AuthRepository;
 import nior_near.server.domain.store.repository.StoreRepository;
@@ -64,5 +65,31 @@ public class HomeServiceImpl implements HomeService {
                 .chefs(chefs)
                 .stores(storeDtos)
                 .build();
+    }
+
+    public List<StoreSearchResponseDto> searchStores(String keyword) {
+        if (keyword == null)
+            keyword = "";
+
+        List<Store> stores = storeRepository.searchStoresByKeyword(keyword);
+        List<StoreSearchResponseDto> storeResponseList = stores.stream()
+                .map(store -> {
+                    List<String> tags = store.getStoreAuthList().stream()
+                            .map(auth -> auth.getAuth().getAuthName())
+                            .collect(Collectors.toList());
+
+                    return StoreSearchResponseDto.builder()
+                            .storeId(store.getId())
+                            .profileImage(store.getProfileImage())
+                            .name(store.getName())
+                            .tags(tags)
+                            .introduction(store.getIntroduction())
+                            .temperature(store.getTemperature())
+                            .reviewCount(10)    // member 부분 적용 후 수정예정
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return storeResponseList;
     }
 }
