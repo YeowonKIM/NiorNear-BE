@@ -24,7 +24,7 @@ public class Menu extends Time {
 
     @Column(nullable = false)
     @ColumnDefault("1000")
-    private long price = 100;
+    private long price = 1000;
 
     @Column(nullable = false)
     private Integer oneServing; // 1인분 그램수

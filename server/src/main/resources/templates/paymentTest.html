@@ -1,70 +1,46 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>NiorNear</title>
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script>
         var IMP = window.IMP;
         IMP.init("imp53311415");
 
         function requestPay() {
-
-            var orderUid = '[[${requestDto.orderUid}]]';
-            var itemName = '[[${requestDto.itemName}]]';
-            var paymentPrice = [[${requestDto.paymentPrice}]];
-            var buyerName = '[[${requestDto.buyerName}]]';
-            var buyerEmail = '[[${requestDto.buyerEmail}]]';
-            var buyerTel = '[[${requestDto.buyerPhone}]]';
-            // var buyerAddress = '[[${requestDto.buyerAddress}]]';
-
-            IMP.request_pay({
-                    pg : 'html5_inicis.INIpayTest',
-                    pay_method : 'card',
-                    merchant_uid: orderUid,
-                    name : itemName,
-                    amount : paymentPrice,
-                    buyer_email : buyerEmail,
-                    buyer_name : buyerName,
-                    buyer_tel : buyerTel,
-                    buyer_addr : 'temp',
-                    buyer_postcode : '123-456',
-
+            IMP.request_pay(
+                {
+                    pg: "html5_inicis.INIpayTest", //Test는 TC0ONETIME
+                    pay_method: "card",
+                    merchant_uid: "20240813-005",
+                    name: "테스트 상점",
+                    amount: 100,
+                    buyer_email: 'robin@naver.com',
+                    buyer_name: 'Robin',
+                    buyer_tel: '010-1234-5678',
+                    buyer_addr: '서울특별시',
+                    buyer_postcode: '123-456',
                 },
-                function(rsp) {
-                    if (rsp.success) {
-                        alert('call back!!: ' + JSON.stringify(rsp));
-                        // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-                        // jQuery로 HTTP 요청
-                        jQuery.ajax({
-                            url: "/payment",
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            data: JSON.stringify({
-                                "payment_uid": rsp.imp_uid,      // 결제 고유번호
-                                "order_uid": rsp.merchant_uid   // 주문번호
-                            })
-                        }).done(function (response) {
-                            console.log(response);
-                            // 가맹점 서버 결제 API 성공시 로직
-                            //alert('Please, Check your payment result page!!' + rsp);
-                            alert('결제 완료!' + rsp);
-                            window.location.href = "/success-payment";
-                        })
-                    } else {
-                        // alert("success? "+ rsp.success+ ", 결제에 실패하였습니다. 에러 내용: " + JSON.stringify(rsp));
-                        alert('결제 실패!' + rsp);
-                        window.location.href = "/fail-payment";
-                    }
+                function (rsp) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/verifyIamport/' + rsp.imp_uid
+                    }).done(function(data) {
+                        if(rsp.paid_amount === data.response.amount){
+                            alert("결제 성공");
+                        } else {
+                            alert("결제 실패");
+                        }
+                    });
                 });
         }
     </script>
+    <meta charset="UTF-8">
+    <title>Sample Payment</title>
 </head>
 <body>
-<h1>결제 페이지</h1>
-<button th:with="requestDto = ${requestDto}" onclick="requestPay()">
-    결제하기
-</button>
+<button onclick="requestPay()">결제하기</button>
 </body>
 </html>
