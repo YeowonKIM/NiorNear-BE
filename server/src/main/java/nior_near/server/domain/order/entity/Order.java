@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nior_near.server.domain.payment.entity.Payment;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
@@ -47,6 +48,10 @@ public class Order extends Time {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderMenu> orderMenuList = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     @Builder
     public Order(Long totalPrice, String requestMessage, String phone, Place place, Member member, Store store) {
