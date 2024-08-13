@@ -50,11 +50,13 @@ public enum ResponseCode {
     PAGE_AND_SIZE_NOT_CORRECT(HttpStatus.BAD_REQUEST, "STORE4006", "page 와 size 는 0 과 양수만 입력 가능합니다."),
 
     // Order Error
-    ORDER_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "존재하지 않는 주문입니다."),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "존재하지 않는 주문입니다."),
     ORDER_UNAUTHORIZED(HttpStatus.BAD_REQUEST, "STORE4002", "해당 주문에 접근할 권한이 없습니다."),
 
     // Payment Error
     PAYMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "PAYMENT4001", "존재하지 않는 결제요청입니다."),
+    NOT_PAID(HttpStatus.BAD_REQUEST, "PAYMENT4002", "미완료된 결제 내역입니다."),
+    SUSPICIOUS_PRICE(HttpStatus.BAD_REQUEST, "PAYMENT4002", "결제금액 위변조가 의심됩니다."),
 
     // AuthCategory Error
     AUTH_NOT_FOUND(HttpStatus.BAD_REQUEST, "AUTH4001", "존재하지 않는 인증입니다."),

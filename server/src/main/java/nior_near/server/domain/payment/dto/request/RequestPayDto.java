@@ -7,15 +7,15 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class OrderPayRequestDto {
-    private Long orderId;
+public class RequestPayDto {
+    private String orderUid;
     private String clientName;
     private Long totalPrice;
     private String clientNumber;
 
     @Builder
-    public OrderPayRequestDto(Long orderId, String clientName, Long totalPrice, String clientNumber) {
-        this.orderId = orderId;
+    public RequestPayDto(String orderUid, String clientName, Long totalPrice, String clientNumber) {
+        this.orderUid = orderUid;
         this.clientName = clientName;
         this.totalPrice = totalPrice;
         this.clientNumber = clientNumber;

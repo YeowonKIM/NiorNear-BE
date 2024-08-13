@@ -17,7 +17,7 @@ public class Payment {
     private Long id;
     private Long price;
     private PaymentStatus paymentStatus;
-    private String paymentId;
+    private String paymentUid;
 
     @Builder
     public Payment(Long price, PaymentStatus paymentStatus) {
@@ -25,8 +25,8 @@ public class Payment {
         this.paymentStatus = paymentStatus;
     }
 
-    public void changePaymentStatus(PaymentStatus paymentStatus, String paymentId) {
+    public void changePaymentStatus(PaymentStatus paymentStatus, String paymentUid) {
         this.paymentStatus = paymentStatus;
-        this.paymentId = paymentId;
+        this.paymentUid = paymentUid;
     }
 }

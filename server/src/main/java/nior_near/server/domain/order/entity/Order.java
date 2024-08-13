@@ -25,6 +25,8 @@ public class Order extends Time {
     @Column(nullable = false)
     private Long totalPrice;
 
+    private String orderUID;
+
     private String requestMessage;
 
     @Column(nullable = false, length = 20)
@@ -54,8 +56,9 @@ public class Order extends Time {
     private Payment payment;
 
     @Builder
-    public Order(Long totalPrice, String requestMessage, String phone, Place place, Member member, Store store) {
+    public Order(Long totalPrice, String orderUID, String requestMessage, String phone, Place place, Member member, Store store) {
         this.totalPrice = totalPrice;
+        this.orderUID = orderUID;
         this.requestMessage = requestMessage;
         this.phone = phone;
         this.place = place;

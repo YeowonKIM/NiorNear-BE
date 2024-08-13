@@ -9,6 +9,9 @@ import nior_near.server.domain.order.entity.OrderMenu;
 import nior_near.server.domain.order.exception.handler.OrderHandler;
 import nior_near.server.domain.order.repository.OrderMenuRepository;
 import nior_near.server.domain.order.repository.OrderRepository;
+import nior_near.server.domain.payment.entity.Payment;
+import nior_near.server.domain.payment.entity.PaymentStatus;
+import nior_near.server.domain.payment.repository.PaymentRepository;
 import nior_near.server.domain.store.entity.Menu;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.store.repository.MenuRepository;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -33,6 +37,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
     private final OrderMenuRepository orderMenuRepository;
+    private final PaymentRepository paymentRepository;
 
     @Override
     @Transactional
@@ -55,6 +60,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
                         .phone(orderAddRequestDto.getMemberPhone())
                         .requestMessage(orderAddRequestDto.getRequestMessage())
                         .totalPrice(totalPrice)
+                        .orderUID(UUID.randomUUID().toString())
                         .build()
         );
 
@@ -70,6 +76,13 @@ public class OrderCommandServiceImpl implements OrderCommandService {
                 .totalPrice(totalPrice)
                 .orderMenus(orderMenuInfoList)
                 .build();
+
+        paymentRepository.save(
+                        Payment.builder()
+                                .price(totalPrice)
+                                .paymentStatus(PaymentStatus.READY)
+                .build()
+        );
 
         return BaseResponseDto.onSuccess(orderAddResponseDto, ResponseCode.OK);
     }
