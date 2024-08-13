@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.payment.application.PaymentService;
 import nior_near.server.domain.payment.dto.request.RequestPayDto;
 import nior_near.server.domain.payment.dto.request.PaymentCallbackRequest;
+import nior_near.server.domain.payment.dto.response.PaymentResponseDto;
+import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.config.IamportConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,8 +39,10 @@ public class PaymentController {
         this.iamportClient = new IamportClient(restApiKey, restApiSecret);
     }
 
-//    @PostMapping("/payment")
-//    public
+    @PostMapping("/payment/{id}")
+    public BaseResponseDto<PaymentResponseDto> getPayInfo(@PathVariable("id") Long id) {
+        return paymentService.getPayInfo(id);
+    }
 
     @PostMapping("/verifyIamport/{imp_uid}")
     public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid) throws IamportResponseException, IOException {

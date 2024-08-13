@@ -77,12 +77,14 @@ public class OrderCommandServiceImpl implements OrderCommandService {
                 .orderMenus(orderMenuInfoList)
                 .build();
 
-        paymentRepository.save(
-                        Payment.builder()
-                                .price(totalPrice)
-                                .paymentStatus(PaymentStatus.READY)
-                .build()
+        Payment payment = paymentRepository.save(
+                Payment.builder()
+                        .price(totalPrice)
+                        .paymentStatus(PaymentStatus.READY)
+                        .build()
         );
+
+        order.update(payment);
 
         return BaseResponseDto.onSuccess(orderAddResponseDto, ResponseCode.OK);
     }

@@ -25,6 +25,10 @@ public class Payment {
         this.paymentStatus = paymentStatus;
     }
 
+    public void updatePaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     public void changePaymentStatus(PaymentStatus paymentStatus, String paymentUid) {
         this.paymentStatus = paymentStatus;
         this.paymentUid = paymentUid;

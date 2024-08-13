@@ -12,7 +12,7 @@
         function requestPay() {
             IMP.request_pay(
                 {
-                    pg: "html5_inicis.INIpayTest", //Test는 TC0ONETIME
+                    pg: "html5_inicis.INIpayTest",
                     pay_method: "card",
                     merchant_uid: "20240813-005",
                     name: "테스트 상점",
@@ -20,8 +20,8 @@
                     buyer_email: 'robin@naver.com',
                     buyer_name: 'Robin',
                     buyer_tel: '010-1234-5678',
-                    buyer_addr: '서울특별시',
-                    buyer_postcode: '123-456',
+                    // buyer_addr: '서울특별시',
+                    // buyer_postcode: '123-456',
                 },
                 function (rsp) {
                     $.ajax({

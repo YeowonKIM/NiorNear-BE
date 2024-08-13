@@ -10,9 +10,12 @@ import nior_near.server.domain.order.entity.Order;
 import nior_near.server.domain.order.repository.OrderRepository;
 import nior_near.server.domain.payment.dto.request.RequestPayDto;
 import nior_near.server.domain.payment.dto.request.PaymentCallbackRequest;
+import nior_near.server.domain.payment.dto.response.PaymentResponseDto;
 import nior_near.server.domain.payment.entity.PaymentStatus;
 import nior_near.server.domain.payment.exception.handler.PaymentHandler;
 import nior_near.server.domain.payment.repository.PaymentRepository;
+import nior_near.server.domain.user.entity.Member;
+import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +81,6 @@ public class PaymentServiceImpl implements PaymentService{
                 throw new PaymentHandler(ResponseCode.SUSPICIOUS_PRICE);
             }
 
-            // 결제 상태 변경
             order.getPayment().changePaymentStatus(PaymentStatus.OK, iamportResponse.getResponse().getImpUid());
 
             return iamportResponse;
@@ -90,4 +92,24 @@ public class PaymentServiceImpl implements PaymentService{
         }
     }
 
+    @Override
+    public BaseResponseDto<PaymentResponseDto> getPayInfo(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new PaymentHandler(ResponseCode.ORDER_NOT_FOUND));
+
+        Member member = order.getMember();
+
+        PaymentResponseDto paymentResponseDto = PaymentResponseDto.builder()
+                .merchantUid(order.getOrderUID())
+                .name("NiorNear 주문 결제")
+                .amount(order.getTotalPrice())
+                .buyerEmail(member.getEmail())
+                .buyerName(member.getName())
+                .buyerTel(member.getPhone())
+                .build();
+
+        order.getPayment().updatePaymentStatus(PaymentStatus.OK);
+
+        return BaseResponseDto.onSuccess(paymentResponseDto, ResponseCode.OK);
+    }
 }

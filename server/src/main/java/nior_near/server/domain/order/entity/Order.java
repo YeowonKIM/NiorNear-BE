@@ -8,7 +8,6 @@ import nior_near.server.domain.payment.entity.Payment;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.util.Time;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class Order extends Time {
     private Payment payment;
 
     @Builder
-    public Order(Long totalPrice, String orderUID, String requestMessage, String phone, Place place, Member member, Store store) {
+    public Order(Long totalPrice, String orderUID, String requestMessage, String phone, Place place, Member member, Store store, Payment payment) {
         this.totalPrice = totalPrice;
         this.orderUID = orderUID;
         this.requestMessage = requestMessage;
@@ -64,5 +63,10 @@ public class Order extends Time {
         this.place = place;
         this.member = member;
         this.store = store;
+        this.payment = payment;
+    }
+
+    public void update(Payment payment) {
+        this.payment = payment;
     }
 }
