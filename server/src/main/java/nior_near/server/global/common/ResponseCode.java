@@ -60,7 +60,7 @@ public enum ResponseCode {
     MENU_NOT_FOUND(HttpStatus.BAD_REQUEST, "MENU4001", "해당 메뉴는 메뉴 목록에 없는 메뉴입니다."),
 
     // Region Error
-    REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "카테고리에 없는 지역입니다."),
+    REGION_NOT_FOUND(HttpStatus.NOT_FOUND, "REGION4001", "카테고리에 없는 지역입니다."),
 
     // Place Error
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "PLACE4001", "카테고리에 없는 픽업 장소입니다."),

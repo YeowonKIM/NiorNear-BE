@@ -2,7 +2,9 @@ package nior_near.server.domain.user.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
-import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.letter.dto.response.LetterResponseDto;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -12,15 +14,5 @@ public class MyMemberResponseDto {
     private String nickname;
     private long point;
     private String imageUrl;
-    // TODO: 편지함 Dtos 추가
-
-    public static MyMemberResponseDto of(Member member) {
-
-        return MyMemberResponseDto.builder()
-                .memberId(member.getId())
-                .nickname(member.getName())
-                .point(member.getPoint())
-                .imageUrl(member.getProfileImage())
-                .build();
-    }
+    private List<LetterResponseDto> letterResponseDtos;
 }
