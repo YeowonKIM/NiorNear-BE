@@ -23,6 +23,7 @@ import nior_near.server.domain.user.entity.Member;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
+import nior_near.server.global.util.SmsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     private final OrderMenuRepository orderMenuRepository;
     private final PaymentRepository paymentRepository;
     private final LetterRepository letterRepository;
+    private final SmsService smsService;
 
     @Override
     @Transactional
@@ -93,6 +95,9 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         );
 
         order.update(payment);
+
+        // 문자 전송 시점 변경 예정
+        smsService.sendMessage();
 
         return BaseResponseDto.onSuccess(orderAddResponseDto, ResponseCode.OK);
     }
