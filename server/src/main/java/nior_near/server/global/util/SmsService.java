@@ -1,22 +1,28 @@
 package nior_near.server.global.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
+import javax.annotation.PostConstruct;
 
-@Service
+@Configuration
 public class SmsService {
-    private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
+//    private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
+    private DefaultMessageService messageService;
 
-    final DefaultMessageService messageService;
+    @Value("${coolsms.api.key}")
+    private String apiKey;
 
-    public SmsService() {
-        this.messageService = NurigoApp.INSTANCE.initialize("", "", "https://api.coolsms.co.kr");
+    @Value("${coolsms.api.secret}")
+    private String apiSecretKey;
+
+    @PostConstruct
+    public void init() {
+        this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
     }
 
     public void sendMessage() {
