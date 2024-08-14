@@ -2,6 +2,9 @@ package nior_near.server.domain.order.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nior_near.server.domain.letter.entity.Letter;
+import nior_near.server.domain.letter.entity.LetterStatus;
+import nior_near.server.domain.letter.repository.LetterRepository;
 import nior_near.server.domain.order.dto.request.OrderAddRequestDto;
 import nior_near.server.domain.order.dto.response.OrderAddResponseDto;
 import nior_near.server.domain.order.entity.Order;
@@ -38,6 +41,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     private final OrderRepository orderRepository;
     private final OrderMenuRepository orderMenuRepository;
     private final PaymentRepository paymentRepository;
+    private final LetterRepository letterRepository;
 
     @Override
     @Transactional
@@ -67,6 +71,10 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         List<OrderMenu> orderMenuList = getOrderMenuList(orderAddRequestDto.getMenus(), order);
         orderMenuRepository.saveAll(orderMenuList);
 
+        // 주문 생성 후, 편지 보내기
+        sendChefLetterToMember(store.getMember(), member, store.getLetter());
+
+        // response 생성
         List<OrderAddResponseDto.OrderMenuInfo> orderMenuInfoList = getOrderMenuInfoList(orderAddRequestDto.getMenus());
 
         OrderAddResponseDto orderAddResponseDto = OrderAddResponseDto.builder()
@@ -125,5 +133,18 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         }
 
         return orderMenuInfoList;
+    }
+
+    private void sendChefLetterToMember(Member sender, Member receiver, String letterImageLink) {
+
+        Letter letter = Letter.builder()
+                .senderName(sender.getName())
+                .imageLink(letterImageLink)
+                .status(LetterStatus.UNREAD)
+                .sender(sender)
+                .receiver(receiver)
+                .build();
+
+        letterRepository.save(letter);
     }
 }
