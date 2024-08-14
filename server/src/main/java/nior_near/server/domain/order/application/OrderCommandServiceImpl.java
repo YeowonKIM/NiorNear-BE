@@ -97,7 +97,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         order.update(payment);
 
         // 문자 전송 시점 변경 예정
-        smsService.sendMessage();
+        smsService.sendMessage(order);
 
         return BaseResponseDto.onSuccess(orderAddResponseDto, ResponseCode.OK);
     }
