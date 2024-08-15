@@ -32,7 +32,7 @@ public enum ResponseCode {
 
     // Token Error
     ACCESS_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "TOKEN4001", "헤더에 토큰 값이 없습니다"),
-    TOKEN_PREFIX_VALUE_EXCEPTION(HttpStatus.BAD_REQUEST, "TOKEN4002", "토큰 prefix값이 잘못되었습니다 [kakao_ || naver_]"),
+    TOKEN_PREFIX_VALUE_EXCEPTION(HttpStatus.BAD_REQUEST, "TOKEN4002", "토큰 prefix값이 잘못되었습니다 [naver_]"),
     BEARER_PREFIX_VALUE_EXCEPTION(HttpStatus.BAD_REQUEST, "TOKEN4002", "토큰 prefix값이 잘못되었습니다 [Bearer ]"),
 
     // Coupon Error

@@ -54,6 +54,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
 	implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.3.0'
 
+	// Spring Security + OAuth
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
 }
 
