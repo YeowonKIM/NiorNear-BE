@@ -1,6 +1,5 @@
 package nior_near.server.domain.order.api;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.application.OrderCommandService;
@@ -8,7 +7,6 @@ import nior_near.server.domain.order.application.OrderQueryService;
 import nior_near.server.domain.order.dto.request.OrderAddRequestDto;
 import nior_near.server.domain.order.dto.response.OrderAddResponseDto;
 import nior_near.server.domain.order.dto.response.OrderGetResponseDto;
-import nior_near.server.domain.user.application.MemberService;
 import nior_near.server.global.common.BaseResponseDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,30 +18,29 @@ public class OrderController {
 
     private final OrderCommandService orderCommandService;
     private final OrderQueryService orderQueryService;
-    private final MemberService memberService;
 
     @PostMapping
-    public BaseResponseDto<OrderAddResponseDto> addOrder(@ModelAttribute OrderAddRequestDto orderAddRequestDto,
-                                                         HttpServletRequest request) {
+    public BaseResponseDto<OrderAddResponseDto> addOrder(@ModelAttribute OrderAddRequestDto orderAddRequestDto) {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
          */
-        String memberName = memberService.retrieveName(request);
+//        String memberName = memberService.retrieveName(request);
+        Long memberId = 11L;
 
-        return orderCommandService.addOrder(memberName, orderAddRequestDto);
+        return orderCommandService.addOrder(memberId, orderAddRequestDto);
 
     }
 
     @GetMapping("/{orderId}")
-    public BaseResponseDto<OrderGetResponseDto> getOrder(@PathVariable("orderId") Long orderId,
-                                                         HttpServletRequest request) {
+    public BaseResponseDto<OrderGetResponseDto> getOrder(@PathVariable("orderId") Long orderId) {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
          */
-        String memberName = memberService.retrieveName(request);
+//        String memberName = memberService.retrieveName(request);
+        Long memberId = 11L;
 
-        return orderQueryService.getOrder(memberName, orderId);
+        return orderQueryService.getOrder(memberId, orderId);
     }
 }

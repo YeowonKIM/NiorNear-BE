@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public interface StoreCommandService {
 
-    BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(String memberName, CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException;
+    BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Long memberId, CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException;
 
-    BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(String memberName, FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException;
+    BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(Long memberId, FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException;
 
-    BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, String memberName, MenuAddRequestDto menuAddRequestDto) throws IOException;
+    BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, Long memberId, MenuAddRequestDto menuAddRequestDto) throws IOException;
 }
