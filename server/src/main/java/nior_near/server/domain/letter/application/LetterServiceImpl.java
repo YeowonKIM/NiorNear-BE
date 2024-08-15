@@ -43,7 +43,6 @@ public class LetterServiceImpl implements LetterService {
         List<Letter> letters = letterRepository.findAllByReceiverId(memberId, startDate, pageable);
 
         return letters.stream()
-                .filter(letter -> letter.getImageLink() != null)
                 .map(LetterResponseDto::of)
                 .collect(Collectors.toList());
     }
