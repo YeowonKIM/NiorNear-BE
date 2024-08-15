@@ -39,15 +39,21 @@ public class MemberServiceImpl implements MemberService {
     private final RegionRepository regionRepository;
 
     @Override
-    public MyMemberResponseDto getMyProfile(String memberName) {
+    public MyMemberResponseDto getMyProfile() {
 
         final int MY_PAGE_LETTER_LIMIT = 3;
         final int DEFAULT_PAGE = 0;
 
+        /*
         Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
+         */
 
-        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT, memberName);
+        long memberId = 11L;
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
+
+        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT);
 
         return MyMemberResponseDto.builder()
                 .memberId(member.getId())

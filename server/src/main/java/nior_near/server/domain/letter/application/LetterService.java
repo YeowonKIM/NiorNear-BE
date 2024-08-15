@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LetterService {
 
-    List<LetterResponseDto> getAllLetters(int page, int limit, String memberName);
-    ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto, String memberName);
+    List<LetterResponseDto> getAllLetters(int page, int limit);
+    ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto);
     Long updateLetterStatus(Long letterId);
 }
