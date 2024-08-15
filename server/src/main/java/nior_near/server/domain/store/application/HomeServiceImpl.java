@@ -6,8 +6,12 @@ import nior_near.server.domain.store.dto.response.HomeResponseDto;
 import nior_near.server.domain.store.dto.response.StoreSearchResponseDto;
 import nior_near.server.domain.store.entity.Region;
 import nior_near.server.domain.store.entity.Store;
+import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.AuthRepository;
 import nior_near.server.domain.store.repository.StoreRepository;
+import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.repository.MemberRepository;
+import nior_near.server.global.common.ResponseCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +23,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class HomeServiceImpl implements HomeService {
     private final StoreRepository storeRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public HomeResponseDto getHome(Region region) {
+    public HomeResponseDto getHome(Long memberId) {
+        memberId = 11L;
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+
+        Long regionId = member.getRegion().getId();
+
         List<Store> stores;
 
-        Long regionId;
-
         // 지역 선택이 없을 경우 모든 스토어를 가져옴
-        if (region == null) {
+        if (regionId == null) {
             stores = storeRepository.findAll();
             regionId = null;
         } else {
-            regionId = region.getId();
             stores = storeRepository.findByRegion_Id(regionId);
         }
 

@@ -5,7 +5,7 @@ import nior_near.server.domain.store.entity.Region;
 import java.util.List;
 
 public interface RegionService {
-    public List<Region> getRegionsByUpperId(Long upperId);
+    public List<Region> getRegions();
 
     public Region getRegionById(Long regionId);
 }

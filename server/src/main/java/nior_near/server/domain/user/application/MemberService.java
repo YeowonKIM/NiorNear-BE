@@ -9,7 +9,6 @@ public interface MemberService {
     MyMemberResponseDto getMyProfile();
 
     public Member findMemberByName(String name);
-    public String retrieveName(HttpServletRequest request);
 
     public void updateMemberRegion(Member member, Long regionId);
 
