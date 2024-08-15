@@ -35,22 +35,19 @@ public class MemberServiceImpl implements MemberService {
     private final TokenParser tokenParser;
 
     @Override
-    public MyMemberResponseDto getMyProfile() {
+    public MyMemberResponseDto getMyProfile(String memberName) {
 
         final int MY_PAGE_LETTER_LIMIT = 3;
         final int DEFAULT_PAGE = 0;
 
-        // TODO: JWT Token으로 member 정보 가져오기
-        long memberId = 3L;
-
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
-        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT);
+        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT, memberName);
 
         return MyMemberResponseDto.builder()
-                .memberId(memberId)
-                .nickname(member.getName())
+                .memberId(member.getId())
+                .nickname(member.getNickname())
                 .point(member.getPoint())
                 .imageUrl(member.getProfileImage())
                 .letterResponseDtos(letters)
