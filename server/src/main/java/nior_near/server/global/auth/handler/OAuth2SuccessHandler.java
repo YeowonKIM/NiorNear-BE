@@ -34,7 +34,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(60);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setDomain("54.180.155.131");
 
         response.addCookie(cookie);
     }
