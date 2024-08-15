@@ -3,6 +3,7 @@ package nior_near.server.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nior_near.server.domain.letter.entity.Letter;
 import nior_near.server.domain.store.entity.Region;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.global.util.Time;
@@ -59,10 +60,11 @@ public class Member extends Time {
     @OneToOne(mappedBy = "member")
     private Store store;
 
-    /*
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Letter> letterList = new ArrayList<>();
-     */
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Letter> senderLetterList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Letter> receiverLetterList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accountList = new ArrayList<>();
