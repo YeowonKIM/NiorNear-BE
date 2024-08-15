@@ -2,6 +2,7 @@ package nior_near.server.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nior_near.server.domain.store.entity.Region;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.global.util.Time;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member extends Time {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,7 @@ public class Member extends Time {
     @Column(nullable = false)
     private String social;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Column(nullable = false, length = 50)
@@ -35,6 +37,13 @@ public class Member extends Time {
     @Column(nullable = false)
     @ColumnDefault("0")
     private Long point;
+
+//  For Spring Security
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String role;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'NONMEMBER'")
@@ -60,5 +69,16 @@ public class Member extends Time {
 
     public void setUserAuthorization(UserAuthorization userAuthorization) {
         this.userAuthorization = userAuthorization;
+    }
+
+    public Member (String userId, String nickname, String profileImage, String email, String phone, String type) {
+        this.name = userId;
+        this.profileImage = profileImage;
+        this.password = "Passw0rd";
+        this.social = type;
+        this.role = "ROLE_USER";
+        this.email = email;
+        this.phone = phone;
+        this.point = 0L;
     }
 }
