@@ -77,7 +77,7 @@ public class WebSecurityConfiguration {
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 //        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://www.niornear.store"));
+        corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://www.niornear.store", "http://54.180.155.131:8080"));
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
