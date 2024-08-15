@@ -32,9 +32,9 @@ public class StoreController {
          * TODO: 추후에 accessToken 에서 받아올 정보
          */
 //        String memberName = memberService.retrieveName(request);
-        Long memberId = 11L;
+//        Long memberId = 11L;
 
-        return storeCommandService.registerCompanyChef(memberId, companyChefRegistrationRequestDto);
+        return storeCommandService.registerCompanyChef(companyChefRegistrationRequestDto.getMemberId(), companyChefRegistrationRequestDto);
 
     }
 
@@ -45,9 +45,9 @@ public class StoreController {
          * TODO: 추후에 accessToken 에서 받아올 정보
          */
 //        String memberName = memberService.retrieveName(request);
-        Long memberId = 11L;
+//        Long memberId = 11L;
 
-        return storeCommandService.registerFreelanceChef(memberId, freelanceChefRegistrationRequestDto);
+        return storeCommandService.registerFreelanceChef(freelanceChefRegistrationRequestDto.getMemberId(), freelanceChefRegistrationRequestDto);
 
     }
 
@@ -58,9 +58,9 @@ public class StoreController {
          * TODO: 추후에 accessToken 에서 받아올 정보
          */
 //        String memberName = memberService.retrieveName(request);
-        Long memberId = 11L;
+//        Long memberId = 11L;
 
-        return storeCommandService.addMenu(storeId, memberId, menuAddRequestDto);
+        return storeCommandService.addMenu(storeId, menuAddRequestDto.getMemberId(), menuAddRequestDto);
 
     }
 
