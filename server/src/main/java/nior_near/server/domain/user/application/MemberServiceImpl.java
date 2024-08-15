@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
         final int DEFAULT_PAGE = 0;
 
         // TODO: JWT Token으로 member 정보 가져오기
-        long memberId = 0;
+        long memberId = 3L;
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
