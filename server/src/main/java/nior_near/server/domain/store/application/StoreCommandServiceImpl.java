@@ -45,9 +45,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Override
     @Transactional
-    public BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(String memberName, CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> registerCompanyChef(Long memberId, CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
 
-        Member member = memberRepository.findByName(memberName).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         List<Auth> authList = new ArrayList<>();
 
@@ -88,9 +88,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Override
     @Transactional
-    public BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(String memberName, FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> registerFreelanceChef(Long memberId, FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
 
-        Member member = memberRepository.findByName(memberName).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         List<Auth> authList = new ArrayList<>();
 
@@ -139,9 +139,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Override
     @Transactional
-    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, String memberName, MenuAddRequestDto menuAddRequestDto) throws IOException {
+    public BaseResponseDto<MenuAddResponseDto> addMenu(Long storeId, Long memberId, MenuAddRequestDto menuAddRequestDto) throws IOException {
 
-        Member member = memberRepository.findByName(memberName).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ResponseCode.STORE_NOT_FOUND));
 
         // 권한 확인

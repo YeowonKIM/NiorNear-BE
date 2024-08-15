@@ -5,5 +5,5 @@ import nior_near.server.global.common.BaseResponseDto;
 
 public interface OrderQueryService {
 
-    BaseResponseDto<OrderGetResponseDto> getOrder(String memberName, Long orderId);
+    BaseResponseDto<OrderGetResponseDto> getOrder(Long memberId, Long orderId);
 }

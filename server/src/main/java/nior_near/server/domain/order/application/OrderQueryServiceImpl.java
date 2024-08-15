@@ -24,9 +24,9 @@ public class OrderQueryServiceImpl implements OrderQueryService {
     private final MemberRepository memberRepository;
 
     @Override
-    public BaseResponseDto<OrderGetResponseDto> getOrder(String memberName, Long orderId) {
+    public BaseResponseDto<OrderGetResponseDto> getOrder(Long memberId, Long orderId) {
 
-        Member member = memberRepository.findByName(memberName).orElseThrow(() -> new OrderHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new OrderHandler(ResponseCode.MEMBER_NOT_FOUND));
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderHandler(ResponseCode.ORDER_NOT_FOUND));
 
         // 지금 주문서를 확인할 권한이 있는지(주문한 당사자인지 체크)
