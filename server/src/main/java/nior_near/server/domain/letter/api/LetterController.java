@@ -1,6 +1,5 @@
 package nior_near.server.domain.letter.api;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.application.LetterService;
 import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
@@ -24,11 +23,10 @@ public class LetterController {
 
     // @Operation(summary = "편지함 전체 조회")
     @GetMapping
-    BaseResponseDto<List<LetterResponseDto>> getAllLetters(@RequestParam(defaultValue = "0") int page,
-                                                           HttpServletRequest request) {
+    BaseResponseDto<List<LetterResponseDto>> getAllLetters(@RequestParam(defaultValue = "0") int page) {
 
-        String memberName = memberService.retrieveName(request);
-        return BaseResponseDto.onSuccess(letterService.getAllLetters(page, MAILBOX_PAGE_LETTER_LIMIT, memberName), ResponseCode.OK);
+        //String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(letterService.getAllLetters(page, MAILBOX_PAGE_LETTER_LIMIT), ResponseCode.OK);
     }
 
     // @Operation(summary = "편지함 전체 조회")
@@ -40,10 +38,9 @@ public class LetterController {
 
     // @Operation(summary = "감사 편지 작성")
     @PostMapping("/thank")
-    BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto,
-                                                           HttpServletRequest request) {
+    BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
 
-        String memberName = memberService.retrieveName(request);
-        return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto, memberName), ResponseCode.OK);
+        // String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
     }
 }

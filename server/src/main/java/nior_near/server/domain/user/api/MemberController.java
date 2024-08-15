@@ -1,6 +1,5 @@
 package nior_near.server.domain.user.api;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.user.application.MemberService;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
@@ -19,10 +18,10 @@ public class MemberController {
 
     // @Operation(summary = "마이페이지 기본화면 조회")
     @GetMapping
-    BaseResponseDto<MyMemberResponseDto> getMyProfile(HttpServletRequest request) {
+    BaseResponseDto<MyMemberResponseDto> getMyProfile() {
 
-        String memberName = memberService.retrieveName(request);
-        return BaseResponseDto.onSuccess(memberService.getMyProfile(memberName), ResponseCode.OK);
+        // String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(memberService.getMyProfile(), ResponseCode.OK);
     }
 
     /**
