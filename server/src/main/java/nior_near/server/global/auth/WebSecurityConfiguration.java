@@ -78,7 +78,8 @@ public class WebSecurityConfiguration {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setMaxAge(3600L);
 
         // cors 로그인 부분 제외
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
