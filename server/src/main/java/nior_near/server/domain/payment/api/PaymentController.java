@@ -8,8 +8,10 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.payment.application.PaymentService;
+import nior_near.server.domain.payment.dto.request.PayStatusRequestDto;
 import nior_near.server.domain.payment.dto.request.RequestPayDto;
 import nior_near.server.domain.payment.dto.request.PaymentCallbackRequest;
+import nior_near.server.domain.payment.dto.response.PayStatusResponseDto;
 import nior_near.server.domain.payment.dto.response.PaymentResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.config.IamportConfig;
@@ -73,5 +75,10 @@ public class PaymentController {
     @GetMapping("/fail-payment")
     public String failPaymentPage() {
         return "fail-payment";
+    }
+
+    @PostMapping("/payment/status")
+    public BaseResponseDto<PayStatusResponseDto> getPayStatus(@RequestBody PayStatusRequestDto requestDto) throws IOException {
+        return paymentService.getPayStatus(requestDto);
     }
 }

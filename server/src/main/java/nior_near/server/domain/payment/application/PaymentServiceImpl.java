@@ -8,8 +8,10 @@ import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.order.entity.Order;
 import nior_near.server.domain.order.repository.OrderRepository;
+import nior_near.server.domain.payment.dto.request.PayStatusRequestDto;
 import nior_near.server.domain.payment.dto.request.RequestPayDto;
 import nior_near.server.domain.payment.dto.request.PaymentCallbackRequest;
+import nior_near.server.domain.payment.dto.response.PayStatusResponseDto;
 import nior_near.server.domain.payment.dto.response.PaymentResponseDto;
 import nior_near.server.domain.payment.entity.PaymentStatus;
 import nior_near.server.domain.payment.exception.handler.PaymentHandler;
@@ -17,6 +19,7 @@ import nior_near.server.domain.payment.repository.PaymentRepository;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
+import nior_near.server.global.util.SmsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,7 @@ public class PaymentServiceImpl implements PaymentService{
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final IamportClient iamportClient;
+    private final SmsService smsService;
 
     @Override
     public RequestPayDto findRequestDto(String orderUid) {
@@ -108,8 +112,27 @@ public class PaymentServiceImpl implements PaymentService{
                 .buyerTel(member.getPhone())
                 .build();
 
-        order.getPayment().updatePaymentStatus(PaymentStatus.OK);
+//        order.getPayment().updatePaymentStatus(PaymentStatus.OK);
 
         return BaseResponseDto.onSuccess(paymentResponseDto, ResponseCode.OK);
     }
+
+    @Override
+    @Transactional
+    public BaseResponseDto<PayStatusResponseDto> getPayStatus(PayStatusRequestDto requestDto) {
+        Order order = orderRepository.findById(requestDto.getOrderId())
+                .orElseThrow(() -> new PaymentHandler(ResponseCode.ORDER_NOT_FOUND));
+
+        PayStatusResponseDto payStatusResponseDto = PayStatusResponseDto.builder()
+                        .orderId(order.getId()).build();
+
+        if (requestDto.getStatus().equals(PaymentStatus.SUCCESS.getName())) {
+            order.getPayment().updatePaymentStatus(PaymentStatus.OK);
+            smsService.sendMessage(order);
+        }
+
+        return BaseResponseDto.onSuccess(payStatusResponseDto, ResponseCode.OK);
+    }
+
+
 }

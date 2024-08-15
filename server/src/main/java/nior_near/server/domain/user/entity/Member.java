@@ -45,6 +45,9 @@ public class Member extends Time {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'NONMEMBER'")
     private UserAuthorization userAuthorization = UserAuthorization.NONMEMBER;
@@ -80,5 +83,6 @@ public class Member extends Time {
         this.email = email;
         this.phone = phone;
         this.point = 0L;
+        this.nickname = nickname;
     }
 }

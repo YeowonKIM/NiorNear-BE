@@ -35,7 +35,7 @@ public class WebSecurityConfiguration {
     private final DefaultOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
-    private String[] permitAllUri = {"/", "/api/v1/auth/**", "oauth2/**", "/h2-console/**", "regions/**", "/home/**"};
+    private String[] permitAllUri = {"/", "/api/v1/auth/**", "oauth2/**", "/h2-console/**", "regions/**", "/home/**", "/healthcheck"};
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
