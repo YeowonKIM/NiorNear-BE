@@ -47,9 +47,9 @@ public class OrderCommandServiceImpl implements OrderCommandService {
 
     @Override
     @Transactional
-    public BaseResponseDto<OrderAddResponseDto> addOrder(Long memberId, OrderAddRequestDto orderAddRequestDto) {
+    public BaseResponseDto<OrderAddResponseDto> addOrder(String memberName, OrderAddRequestDto orderAddRequestDto) {
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new OrderHandler(ResponseCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findByName(memberName).orElseThrow(() -> new OrderHandler(ResponseCode.MEMBER_NOT_FOUND));
         Store store = storeRepository.findById(orderAddRequestDto.getStoreId()).orElseThrow(() -> new OrderHandler(ResponseCode.STORE_NOT_FOUND));
 
         Long totalPrice = getTotalPrice(orderAddRequestDto.getMenus());
