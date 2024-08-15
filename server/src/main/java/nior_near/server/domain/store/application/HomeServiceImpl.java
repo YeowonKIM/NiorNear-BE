@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.store.dto.response.HomeResponseDto;
 import nior_near.server.domain.store.dto.response.StoreSearchResponseDto;
+import nior_near.server.domain.store.entity.Region;
 import nior_near.server.domain.store.entity.Store;
 import nior_near.server.domain.store.repository.AuthRepository;
 import nior_near.server.domain.store.repository.StoreRepository;
@@ -20,14 +21,17 @@ public class HomeServiceImpl implements HomeService {
     private final StoreRepository storeRepository;
 
     @Transactional(readOnly = true)
-    public HomeResponseDto getHome(Long regionId) {
+    public HomeResponseDto getHome(Region region) {
         List<Store> stores;
 
+        Long regionId;
+
         // 지역 선택이 없을 경우 모든 스토어를 가져옴
-        if (regionId == null) {
+        if (region == null) {
             stores = storeRepository.findAll();
             regionId = null;
         } else {
+            regionId = region.getId();
             stores = storeRepository.findByRegion_Id(regionId);
         }
 
@@ -45,8 +49,7 @@ public class HomeServiceImpl implements HomeService {
                             .map(storeAuth -> storeAuth.getAuth().getAuthName())
                             .collect(Collectors.toList());
 
-//                    int reviewCount = store.getMember().getLetters().size();  // letterList의 길이로 판단
-                    int reviewCount = 10; // 매핑관계 확인 후 수정 예정
+                    int reviewCount = store.getMember().getReceiverLetterList().size();  // letterList의 길이로 판단
 
                     return HomeResponseDto.StoreDto.builder()
                             .storeId(store.getId())
@@ -78,6 +81,8 @@ public class HomeServiceImpl implements HomeService {
                             .map(auth -> auth.getAuth().getAuthName())
                             .collect(Collectors.toList());
 
+                    int reviewCount = store.getMember().getReceiverLetterList().size();  // letterList의 길이로 판단
+
                     return StoreSearchResponseDto.builder()
                             .storeId(store.getId())
                             .profileImage(store.getProfileImage())
@@ -85,7 +90,7 @@ public class HomeServiceImpl implements HomeService {
                             .tags(tags)
                             .introduction(store.getIntroduction())
                             .temperature(store.getTemperature())
-                            .reviewCount(10)    // member 부분 적용 후 수정예정
+                            .reviewCount(reviewCount)
                             .build();
                 })
                 .collect(Collectors.toList());

@@ -1,11 +1,14 @@
 package nior_near.server.domain.store.api;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.store.application.HomeService;
 import nior_near.server.domain.store.dto.response.HomeResponseDto;
 import nior_near.server.domain.store.dto.response.StoreSearchResponseDto;
 import nior_near.server.domain.store.entity.Store;
+import nior_near.server.domain.user.application.MemberService;
+import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +25,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/home")
 public class HomeController {
     private final HomeService homeService;
+    private final MemberService memberService;
 
     @GetMapping("")
-    public BaseResponseDto<HomeResponseDto> getHome(@RequestParam(required = false) Long regionId) {
-        return BaseResponseDto.onSuccess(homeService.getHome(regionId), ResponseCode.OK);
+    public BaseResponseDto<HomeResponseDto> getHome(HttpServletRequest request, @RequestParam(required = false) Long regionId) {
+        String name = memberService.retrieveName(request);
+        Member member = memberService.findMemberByName(name);
+
+        return BaseResponseDto.onSuccess(homeService.getHome(member.getRegion()), ResponseCode.OK);
     }
 
     @GetMapping("/search")

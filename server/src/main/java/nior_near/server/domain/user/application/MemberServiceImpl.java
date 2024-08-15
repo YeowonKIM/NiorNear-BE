@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.letter.application.LetterService;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
+import nior_near.server.domain.store.entity.Region;
+import nior_near.server.domain.store.exception.handler.StoreHandler;
+import nior_near.server.domain.store.repository.RegionRepository;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
@@ -33,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final LetterService letterService;
     private final TokenParser tokenParser;
+    private final RegionRepository regionRepository;
 
     @Override
     public MyMemberResponseDto getMyProfile(String memberName) {
@@ -103,5 +107,16 @@ public class MemberServiceImpl implements MemberService {
         log.info("Member Id : " + accessTokenInfo.getResponse().getId());
 
         return accessTokenInfo.getResponse().getId();
+    }
+
+    public void updateMemberRegion(Member member, Long regionId) {
+        Region region = regionRepository.findById(regionId)
+                .orElseThrow(() -> new StoreHandler(ResponseCode.REGION_NOT_FOUND));
+
+        // 멤버에 region 설정
+        member.setRegion(region);
+
+        // 멤버 저장
+        memberRepository.save(member);
     }
 }

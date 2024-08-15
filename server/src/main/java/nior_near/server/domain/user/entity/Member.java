@@ -87,4 +87,8 @@ public class Member extends Time {
         this.point = 0L;
         this.nickname = nickname;
     }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 }
