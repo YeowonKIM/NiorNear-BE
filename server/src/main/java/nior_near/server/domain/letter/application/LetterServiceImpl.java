@@ -32,7 +32,7 @@ public class LetterServiceImpl implements LetterService {
     public List<LetterResponseDto> getAllLetters(int page, int limit) {
 
         // TODO: JWT 토큰에서 사용자 정보 가져오기
-        long memberId = 0L;
+        long memberId = 3L;
 
         // TODO: 사용자가 없는 경우 예외처리
 
@@ -43,6 +43,7 @@ public class LetterServiceImpl implements LetterService {
         List<Letter> letters = letterRepository.findAllByReceiverId(memberId, startDate, pageable);
 
         return letters.stream()
+                .filter(letter -> letter.getImageLink() != null)
                 .map(LetterResponseDto::of)
                 .collect(Collectors.toList());
     }
@@ -52,7 +53,7 @@ public class LetterServiceImpl implements LetterService {
     public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto) {
 
         // TODO: JWT 토큰에서 사용자 정보 가져오기
-        long memberId = 0L;
+        long memberId = 3L;
 
         // FIXME: Member Handler로 변경
         Member member = memberRepository.findById(memberId)
