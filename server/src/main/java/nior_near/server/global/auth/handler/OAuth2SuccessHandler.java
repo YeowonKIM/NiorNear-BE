@@ -32,7 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         Cookie cookie = new Cookie("access_token", accessToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 7);
 //        cookie.setDomain("54.180.155.131:8080");
@@ -40,7 +40,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(cookie);
 
         // SameSite 속성 추가
-        String cookieHeader = String.format("access_token=%s; Max-Age=%d; Path=/; HttpOnly; Secure; SameSite=None",
+        String cookieHeader = String.format("access_token=%s; Max-Age=%d; Path=/; HttpOnly;",
                 accessToken, 60 * 60 * 24 * 7);
         response.setHeader("Set-Cookie", cookieHeader);
     }
