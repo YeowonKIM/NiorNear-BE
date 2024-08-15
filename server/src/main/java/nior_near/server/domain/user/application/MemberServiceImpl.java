@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 
         return MyMemberResponseDto.builder()
                 .memberId(member.getId())
-                .nickname(member.getName())
+                .nickname(member.getNickname())
                 .point(member.getPoint())
                 .imageUrl(member.getProfileImage())
                 .letterResponseDtos(letters)

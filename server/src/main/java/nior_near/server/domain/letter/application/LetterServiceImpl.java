@@ -56,7 +56,7 @@ public class LetterServiceImpl implements LetterService {
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         Letter letter = Letter.builder()
-                .senderName(member.getName())
+                .senderName(member.getNickname())
                 .text(thankLetterDto.getContent())
                 .status(LetterStatus.UNREAD)
                 .sender(member)
