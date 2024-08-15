@@ -1,6 +1,5 @@
 package nior_near.server.domain.letter.application;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
@@ -10,6 +9,7 @@ import nior_near.server.domain.letter.entity.LetterStatus;
 import nior_near.server.domain.letter.exception.handler.LetterExceptionHandler;
 import nior_near.server.domain.letter.repository.LetterRepository;
 import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.data.domain.PageRequest;
@@ -54,12 +54,11 @@ public class LetterServiceImpl implements LetterService {
         // TODO: JWT 토큰에서 사용자 정보 가져오기
         long memberId = 3L;
 
-        // FIXME: Member Handler로 변경
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         Member receiver = memberRepository.findById(thankLetterDto.getReceiverId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         Letter letter = Letter.builder()
                 .senderName(member.getName())
