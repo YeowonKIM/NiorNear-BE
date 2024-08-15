@@ -17,4 +17,8 @@ public class FreelanceChefRegistrationRequestDto {
     private String placeAddress;
     private Long regionId;
     private String message;
+    /**
+     * FIXME: 추후에 로그인 기능 완성되면 빠질 것
+     */
+    private Long memberId;
 }
