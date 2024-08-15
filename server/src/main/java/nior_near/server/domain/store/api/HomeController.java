@@ -28,9 +28,9 @@ public class HomeController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public BaseResponseDto<HomeResponseDto> getHome(@RequestParam(required = false) Long regionId) {
+    public BaseResponseDto<HomeResponseDto> getHome(@RequestParam(required = false) Long memberId) {
 
-        return BaseResponseDto.onSuccess(homeService.getHome(regionId), ResponseCode.OK);
+        return BaseResponseDto.onSuccess(homeService.getHome(memberId), ResponseCode.OK);
     }
 
     @GetMapping("/search")
