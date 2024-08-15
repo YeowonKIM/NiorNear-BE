@@ -6,7 +6,7 @@ import nior_near.server.domain.user.entity.Member;
 
 public interface MemberService {
 
-    MyMemberResponseDto getMyProfile();
+    MyMemberResponseDto getMyProfile(String memberName);
 
     public Member findMemberByName(String name);
     public String retrieveName(HttpServletRequest request);

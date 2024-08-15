@@ -1,10 +1,12 @@
 package nior_near.server.domain.letter.api;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.letter.application.LetterService;
 import nior_near.server.domain.letter.dto.request.ThankLetterRequestDto;
 import nior_near.server.domain.letter.dto.response.LetterResponseDto;
 import nior_near.server.domain.letter.dto.response.ThankLetterResponseDto;
+import nior_near.server.domain.user.application.MemberService;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,16 @@ import java.util.List;
 public class LetterController {
 
     private final LetterService letterService;
+    private final MemberService memberService;
     private final int MAILBOX_PAGE_LETTER_LIMIT = 9;
 
     // @Operation(summary = "편지함 전체 조회")
     @GetMapping
-    BaseResponseDto<List<LetterResponseDto>> getAllLetters(@RequestParam(defaultValue = "0") int page) {
+    BaseResponseDto<List<LetterResponseDto>> getAllLetters(@RequestParam(defaultValue = "0") int page,
+                                                           HttpServletRequest request) {
 
-        return BaseResponseDto.onSuccess(letterService.getAllLetters(page, MAILBOX_PAGE_LETTER_LIMIT), ResponseCode.OK);
+        String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(letterService.getAllLetters(page, MAILBOX_PAGE_LETTER_LIMIT, memberName), ResponseCode.OK);
     }
 
     // @Operation(summary = "편지함 전체 조회")
@@ -35,8 +40,10 @@ public class LetterController {
 
     // @Operation(summary = "감사 편지 작성")
     @PostMapping("/thank")
-    BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto) {
+    BaseResponseDto<ThankLetterResponseDto> addThankLetter(@RequestBody ThankLetterRequestDto thankLetterDto,
+                                                           HttpServletRequest request) {
 
-        return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto), ResponseCode.OK);
+        String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(letterService.registerThankLetter(thankLetterDto, memberName), ResponseCode.OK);
     }
 }

@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.user.application.MemberService;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
-import nior_near.server.domain.user.entity.Member;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +19,10 @@ public class MemberController {
 
     // @Operation(summary = "마이페이지 기본화면 조회")
     @GetMapping
-    BaseResponseDto<MyMemberResponseDto> getMyProfile() {
+    BaseResponseDto<MyMemberResponseDto> getMyProfile(HttpServletRequest request) {
 
-        return BaseResponseDto.onSuccess(memberService.getMyProfile(), ResponseCode.OK);
+        String memberName = memberService.retrieveName(request);
+        return BaseResponseDto.onSuccess(memberService.getMyProfile(memberName), ResponseCode.OK);
     }
 
     /**
