@@ -21,17 +21,14 @@ public class HomeServiceImpl implements HomeService {
     private final StoreRepository storeRepository;
 
     @Transactional(readOnly = true)
-    public HomeResponseDto getHome(Region region) {
+    public HomeResponseDto getHome(Long regionId) {
         List<Store> stores;
 
-        Long regionId;
-
         // 지역 선택이 없을 경우 모든 스토어를 가져옴
-        if (region == null) {
+        if (regionId == null) {
             stores = storeRepository.findAll();
             regionId = null;
         } else {
-            regionId = region.getId();
             stores = storeRepository.findByRegion_Id(regionId);
         }
 

@@ -17,11 +17,12 @@ import java.util.Optional;
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
 
-    public List<Region> getRegionsByUpperId(Long upperId) {
-        if (upperId == null) {
-            upperId = 1L; // Default upperId = 1 (서울)
-        }
-        return regionRepository.findByUpperId(upperId);
+    public List<Region> getRegions() {
+//        if (upperId == null) {
+//            upperId = 1L; // Default upperId = 1 (서울)
+//        }
+//        return regionRepository.findByUpperId(upperId);
+        return regionRepository.findAll();
     }
 
     public Region getRegionById(Long regionId) {

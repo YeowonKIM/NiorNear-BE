@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Builder
 public class RegionsGetResponseDto {
-    private List<Region> upperRegions;
     private List<Region> detailRegions;
 
     @Getter

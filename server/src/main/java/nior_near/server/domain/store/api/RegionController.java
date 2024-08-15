@@ -25,24 +25,8 @@ public class RegionController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public BaseResponseDto<RegionsGetResponseDto> getRegions(HttpServletRequest request, @RequestParam(required = false) Long upperId) {
-        /**
-            upperId가 -1이면, 상위 카테고리
-            upperId가 0 이상이면, 하위 카테고리
-            upperId가 NULL이면, default값 처리
-        */
-        String name = memberService.retrieveName(request);
-        Member member = memberService.findMemberByName(name);
-
-        List<Region> upperRegions = regionService.getRegionsByUpperId(-1L);
-        List<Region> detailRegions = regionService.getRegionsByUpperId(upperId);
-
-        List<RegionsGetResponseDto.Region> upperRegionsDto = upperRegions.stream()
-                .map(region -> RegionsGetResponseDto.Region.builder()
-                        .id(region.getId())
-                        .name(region.getName())
-                        .build())
-                .collect(Collectors.toList());
+    public BaseResponseDto<RegionsGetResponseDto> getRegions() {
+        List<Region> detailRegions = regionService.getRegions();
 
         List<RegionsGetResponseDto.Region> detailRegionsDto = detailRegions.stream()
                 .map(region -> RegionsGetResponseDto.Region.builder()
@@ -52,7 +36,6 @@ public class RegionController {
                 .collect(Collectors.toList());
 
         return BaseResponseDto.onSuccess(RegionsGetResponseDto.builder()
-                        .upperRegions(upperRegionsDto)
                         .detailRegions(detailRegionsDto)
                 .build(), ResponseCode.OK);
     }
@@ -61,14 +44,5 @@ public class RegionController {
     public BaseResponseDto<Region> getRegionById(@PathVariable Long regionId) {
         Region region = regionService.getRegionById(regionId);
         return BaseResponseDto.onSuccess(region, ResponseCode.OK);
-    }
-
-    @PostMapping("")
-    public BaseResponseDto<String> updateMemberRegion(HttpServletRequest request, @RequestBody UpdateRegionRequestDto body) {
-        String name = memberService.retrieveName(request);
-        Member member = memberService.findMemberByName(name);
-
-        memberService.updateMemberRegion(member, body.getRegionId());
-        return BaseResponseDto.onSuccess("OK.", ResponseCode.OK);
     }
 }
