@@ -21,11 +21,12 @@ jobs:
 
       - name: application.properties 생성
         env:
-          APPLICATION_PROPERTIES_S3: ${{ secrets.APPLICATION_PROPERTIES_S3}}
-          APPLICATION_PROPERTIES_import: ${{ secrets.APPLICATION_PROPERTIES_IMPORT}}
-          APPLICATION_PROPERTIES_oauth: ${{ secrets.APPLICATION_PROPERTIES_OAUTH}}
-          APPLICATION_PROPERTIES_rds: ${{ secrets.APPLICATION_PROPERTIES_RDS}}
-          APPLICATION_PROPERTIES_sms: ${{ secrets.APPLICATION_PROPERTIES_SMS}}
+          APPLICATION_PROPERTIES_S3: ${{ secrets.APPLICATION_PROPERTIES_S3 }}
+          APPLICATION_PROPERTIES_import: ${{ secrets.APPLICATION_PROPERTIES_IMPORT }}
+          APPLICATION_PROPERTIES_oauth: ${{ secrets.APPLICATION_PROPERTIES_OAUTH }}
+          APPLICATION_PROPERTIES_rds: ${{ secrets.APPLICATION_PROPERTIES_RDS }}
+          APPLICATION_PROPERTIES_sms: ${{ secrets.APPLICATION_PROPERTIES_SMS }}
+          APPLICATION_PROPERTIES_ssl: ${{ secrets.APPLICATION_PROPERTIES_SSL }}
 
         run: |
           echo "$APPLICATION_PROPERTIES_S3" > ./src/main/resources/application-s3.properties
@@ -33,6 +34,8 @@ jobs:
           echo "$APPLICATION_PROPERTIES_oauth" > ./src/main/resources/application-oauth.properties
           echo "$APPLICATION_PROPERTIES_rds" > ./src/main/resources/application-rds.properties
           echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-sms.properties
+          echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-ssl.properties
+
 
       - name: 빌드 및 테스트
         run: |
