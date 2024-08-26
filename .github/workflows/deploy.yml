@@ -34,7 +34,7 @@ jobs:
           echo "$APPLICATION_PROPERTIES_oauth" > ./src/main/resources/application-oauth.properties
           echo "$APPLICATION_PROPERTIES_rds" > ./src/main/resources/application-rds.properties
           echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-sms.properties
-          echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-ssl.properties
+          echo "$APPLICATION_PROPERTIES_ssl" > ./src/main/resources/application-ssl.properties
 
 
       - name: 빌드 및 테스트
