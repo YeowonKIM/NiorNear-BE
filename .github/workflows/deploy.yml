@@ -38,7 +38,7 @@ jobs:
         run: ./server/gradlew clean build
 
       - name: 빌드된 파일 이름 변경
-        run: mv ./server/build/libs/*SNAPSHOT.jar ./project.jar
+        run: mv ./server/build/libs/*SNAPSHOT.jar ./server/project.jar
 
       - name: SCP 로 EC2 에 파일 전송
         uses: appleboy/scp-action@v0.1.7
