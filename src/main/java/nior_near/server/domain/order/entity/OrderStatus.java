@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 public enum OrderStatus {
     CONFIRM("CONFIRM"),
     COOKING("COOKING"),
-    PICKUP("PICKUP");
+    PICKUP("PICKUP"),
+    FINISH("FINISH");
 
     private final String status;
 }
