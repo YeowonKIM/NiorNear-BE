@@ -34,7 +34,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         StoreResponseDto storeResponseDto = StoreResponseDto.builder()
                 .storeId(storeId)
-                .name(store.getMember().getName())
+                .name(store.getMember().getNickname())
                 .storePhone(store.getMember().getPhone())
                 .placeId(store.getPlace().getId())
                 .title(store.getTitle())
