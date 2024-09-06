@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select o from Order o" +
@@ -17,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             " left join fetch o.payment p" +
             " where o.orderUID = :orderUid")
     Optional<Order> findOrderAndPayment(String orderUid);
+
+    List<Order> findOrderByMemberId(Long memberId);
 }

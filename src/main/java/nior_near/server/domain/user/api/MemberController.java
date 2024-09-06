@@ -3,11 +3,14 @@ package nior_near.server.domain.user.api;
 import lombok.RequiredArgsConstructor;
 import nior_near.server.domain.user.application.MemberService;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
+import nior_near.server.domain.user.dto.response.MyPaymentSummaryResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -22,6 +25,12 @@ public class MemberController {
 
         // String memberName = memberService.retrieveName(request);
         return BaseResponseDto.onSuccess(memberService.getMyProfile(), ResponseCode.OK);
+    }
+
+    @GetMapping
+    BaseResponseDto<List<MyPaymentSummaryResponseDto>> getMyPaymentSummary() {
+
+        return BaseResponseDto.onSuccess(memberService.getMyPaymentSummary(), ResponseCode.OK);
     }
 
     /**
