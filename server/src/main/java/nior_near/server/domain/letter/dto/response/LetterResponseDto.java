@@ -22,7 +22,7 @@ public class LetterResponseDto {
         return LetterResponseDto.builder()
                 .letterId(letter.getId())
                 .senderId(letter.getSender().getId())
-                .senderName(letter.getSenderName())
+                .senderName(letter.getSender().getNickname())
                 .status(letter.getStatus().getValue())
                 .imageUrl(letter.getImageLink())
                 .createAt(letter.getCreatedAt())
