@@ -26,7 +26,7 @@ public class MyPaymentSummaryResponseDto {
 
         List<OrderMenu> orderMenus = order.getOrderMenuList();
         List<MyOrderMenuResponseDto> myOrderMenuResponseDtos = orderMenus.stream()
-                        .map((orderMenu) -> MyOrderMenuResponseDto.of(orderMenu))
+                        .map(MyOrderMenuResponseDto::of)
                         .collect(Collectors.toList());
 
         return MyPaymentSummaryResponseDto.builder()

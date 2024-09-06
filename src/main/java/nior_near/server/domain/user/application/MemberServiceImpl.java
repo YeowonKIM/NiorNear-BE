@@ -76,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
         List<Order> orders = orderRepository.findOrderByMemberId(member.getId());
 
         return orders.stream()
-                .map((order) -> MyPaymentSummaryResponseDto.of(order))
+                .map(MyPaymentSummaryResponseDto::of)
                 .collect(Collectors.toList());
     }
 

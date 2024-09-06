@@ -2,7 +2,6 @@ package nior_near.server.domain.order.application;
 
 import lombok.Builder;
 import lombok.Getter;
-import nior_near.server.domain.order.entity.Order;
 import nior_near.server.domain.order.entity.OrderMenu;
 
 @Builder
