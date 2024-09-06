@@ -27,7 +27,7 @@ public class MemberController {
         return BaseResponseDto.onSuccess(memberService.getMyProfile(), ResponseCode.OK);
     }
 
-    @GetMapping
+    @GetMapping("/payments")
     BaseResponseDto<List<MyPaymentSummaryResponseDto>> getMyPaymentSummary() {
 
         return BaseResponseDto.onSuccess(memberService.getMyPaymentSummary(), ResponseCode.OK);
