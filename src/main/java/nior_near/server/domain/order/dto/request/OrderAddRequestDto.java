@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class OrderAddRequestDto {
 
-    @NotBlank
+    @NotNull
     private Long storeId;
     @NotNull
     private String requestMessage;
@@ -19,7 +19,7 @@ public class OrderAddRequestDto {
     private String memberName;
     @NotBlank
     private String memberPhone;
-    @NotBlank
+    @NotNull
     private List<OrderMenuItem> menus;
 
     @Getter @Setter
