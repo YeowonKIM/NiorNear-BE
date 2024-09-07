@@ -24,9 +24,9 @@ public class OrderAddRequestDto {
 
     @Getter @Setter
     public static class OrderMenuItem {
-        @NotBlank
+        @NotNull
         private Long menuId;
-        @NotBlank
+        @NotNull
         private Integer quantity;
     }
 }
