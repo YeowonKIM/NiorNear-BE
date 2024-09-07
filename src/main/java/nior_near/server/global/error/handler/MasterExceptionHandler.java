@@ -1,5 +1,6 @@
 package nior_near.server.global.error.handler;
 
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
@@ -33,11 +34,6 @@ public class MasterExceptionHandler {
         return handleExceptionInternal(e, e.getErrorCode(), request);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> exception(Exception e, WebRequest request) {
-        e.printStackTrace(); // 클라이언트에게 불필요한 정보를 노출할 수 있으므로 삭제
-        return handleExceptionInternalFalse(e, ResponseCode._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ResponseCode._INTERNAL_SERVER_ERROR.getHttpStatus(),request);
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> processValidationError(MethodArgumentNotValidException exception) {
@@ -46,6 +42,22 @@ public class MasterExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(buildFieldErrors(ResponseCode._BAD_REQUEST, fieldErrors));
 
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Object> requestValidationException(ValidationException validationException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponseDto.builder()
+                        .isSuccess(false)
+                        .code(ResponseCode._BAD_REQUEST.getCode())
+                        .message(validationException.getMessage())
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> exception(Exception e, WebRequest request) {
+        return handleExceptionInternalFalse(e, ResponseCode._INTERNAL_SERVER_ERROR, HttpHeaders.EMPTY, ResponseCode._INTERNAL_SERVER_ERROR.getHttpStatus(),request);
     }
 
     private List<BaseResponseDto.FieldError> getFieldErrors(BindingResult bindingResult) {

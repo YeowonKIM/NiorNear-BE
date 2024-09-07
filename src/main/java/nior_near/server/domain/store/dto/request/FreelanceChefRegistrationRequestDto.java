@@ -1,5 +1,7 @@
 package nior_near.server.domain.store.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,18 +9,28 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class FreelanceChefRegistrationRequestDto {
+    @NotBlank(message = "이름을 입력해주세요.")
     private String name;
+    @NotBlank(message = "요리사님을 설명하는 짧은 소개를 입력해주세요.")
     private String shortDescription; // title
+    @NotBlank(message = "요리사님을 설명하는 자세한 소개를 입력해주세요.")
     private String detailedDescription; // introduction
+    @NotNull(message = "자격 등록 부분을 선택해주세요.")
     private Boolean qualification;
+    @NotNull(message = "경력을 선택해주세요.")
     private Long auth;
+    @NotNull(message = "편지 사진을 업로드해주세요.")
     private MultipartFile letter;
+    @NotBlank(message = "식당 이름을 입력해주세요.")
     private String placeName;
+    @NotBlank(message = "식당 주소를 입력해주세요.")
     private String placeAddress;
     private Long regionId;
+    @NotBlank(message = "주문 완료 시 고객에게 보여질 문구를 입력해주세요.")
     private String message;
     /**
      * FIXME: 추후에 로그인 기능 완성되면 빠질 것
      */
+    @NotNull
     private Long memberId;
 }

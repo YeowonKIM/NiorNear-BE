@@ -1,5 +1,6 @@
 package nior_near.server.domain.order.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.application.OrderCommandService;
@@ -20,7 +21,7 @@ public class OrderController {
     private final OrderQueryService orderQueryService;
 
     @PostMapping
-    public BaseResponseDto<OrderAddResponseDto> addOrder(@ModelAttribute OrderAddRequestDto orderAddRequestDto) {
+    public BaseResponseDto<OrderAddResponseDto> addOrder(@Valid @ModelAttribute OrderAddRequestDto orderAddRequestDto) {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보

@@ -1,5 +1,6 @@
 package nior_near.server.domain.store.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.store.application.StoreCommandService;
@@ -26,7 +27,7 @@ public class StoreController {
     private final StoreQueryService storeQueryService;
 
     @PostMapping("/near-company")
-    public BaseResponseDto<ChefRegistrationResponseDto> createCompanyStore(@ModelAttribute CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> createCompanyStore(@Valid @ModelAttribute CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
@@ -39,7 +40,7 @@ public class StoreController {
     }
 
     @PostMapping("/freelance")
-    public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@Valid @ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
@@ -52,7 +53,7 @@ public class StoreController {
     }
 
     @PostMapping("/{storeId}/menu")
-    public BaseResponseDto<MenuAddResponseDto> addMenu(@ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
+    public BaseResponseDto<MenuAddResponseDto> addMenu(@Valid @ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
