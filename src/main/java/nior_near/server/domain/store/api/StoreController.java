@@ -53,7 +53,7 @@ public class StoreController {
     }
 
     @PostMapping("/{storeId}/menu")
-    public BaseResponseDto<MenuAddResponseDto> addMenu(@ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
+    public BaseResponseDto<MenuAddResponseDto> addMenu(@Valid @ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
 
         /**
          * TODO: 추후에 accessToken 에서 받아올 정보
