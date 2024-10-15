@@ -47,3 +47,10 @@ application-rds.properties
 application-iamport.properties
 application-sms.properties
 application-ssl.properties
+
+# build scripts
+profile.sh
+stop.sh
+start.sh
+health.sh
+switch.sh
