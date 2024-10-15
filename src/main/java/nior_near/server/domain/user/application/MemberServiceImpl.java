@@ -17,6 +17,8 @@ import nior_near.server.domain.user.dto.response.MyPaymentSummaryResponseDto;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
 import nior_near.server.domain.user.repository.MemberRepository;
+import nior_near.server.global.auth.dto.NaverAccessTokenInfoResponseDto;
+import nior_near.server.global.auth.jwt.TokenParser;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
     private final LetterService letterService;
     private final RegionRepository regionRepository;
     private final OrderRepository orderRepository;
+    private final TokenParser tokenParser;
 
     @Override
     public MyMemberResponseDto getMyProfile() {
@@ -94,5 +97,51 @@ public class MemberServiceImpl implements MemberService {
 
         // 멤버 저장
         memberRepository.save(member);
+    }
+
+    public String retrieveName(HttpServletRequest request) {
+
+        String hasPrefixAccessToken = tokenParser.parseBearerToken(request);
+        log.info(request.toString());
+
+        String name = null;
+        if (hasPrefixAccessToken.startsWith("naver_")) {
+            String accessToken = hasPrefixAccessToken.substring(6);
+            name = "naver_" + tokenPrefixNaver(accessToken);
+        }
+        else
+            throw new MemberExceptionHandler(ResponseCode.TOKEN_PREFIX_VALUE_EXCEPTION);
+
+        return name;
+    }
+
+    private String tokenPrefixNaver(String accessToken) {
+        RestTemplate rt = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, String>> naverTokenReq =
+                new HttpEntity<>(null,headers);
+
+        ResponseEntity<String> resp = rt.exchange(
+                "https://openapi.naver.com/v1/nid/me",
+                HttpMethod.GET,
+                naverTokenReq,
+                String.class
+        );
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        NaverAccessTokenInfoResponseDto accessTokenInfo = null;
+
+        try {
+            accessTokenInfo = objectMapper.readValue(resp.getBody(), NaverAccessTokenInfoResponseDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        log.info(String.valueOf(accessTokenInfo));
+        log.info("Member Id : " + accessTokenInfo.getResponse().getId());
+
+        return accessTokenInfo.getResponse().getId();
     }
 }
