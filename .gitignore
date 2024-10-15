@@ -49,8 +49,8 @@ application-sms.properties
 application-ssl.properties
 
 # build scripts
-resources/scripts/profile.sh
-resources/scripts/stop.sh
-resources/scripts/start.sh
-resources/scripts/health.sh
-resources/scripts/switch.sh
+src/main/resources/scripts/profile.sh
+src/main/resources/scripts/stop.sh
+src/main/resources/scripts/start.sh
+src/main/resources/scripts/health.sh
+src/main/resources/scripts/switch.sh
