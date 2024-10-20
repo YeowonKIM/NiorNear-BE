@@ -15,15 +15,15 @@ import java.util.Optional;
 @Slf4j
 public class TokenParser {
     public String parseBearerToken(HttpServletRequest request) {
-        Optional<String> accessToken = Arrays.stream(request.getCookies())
-                .filter(cookie -> "access_token".equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .findFirst();
+        String authorization = request.getHeader("Authorization");
 
-        if (accessToken.isPresent()) {
-            return accessToken.get();
-        } else {
-            throw new MemberExceptionHandler(ResponseCode.ACCESS_TOKEN_NOT_FOUND);
-        }
+        boolean hasAuthorization = StringUtils.hasText(authorization);
+        if(!hasAuthorization) throw new MemberExceptionHandler(ResponseCode.ACCESS_TOKEN_NOT_FOUND);
+
+        boolean isBearer = authorization.startsWith("Bearer ");
+        if(!isBearer) throw new MemberExceptionHandler(ResponseCode.BEARER_PREFIX_VALUE_EXCEPTION);
+
+        String token = authorization.substring(7);
+        return token;
     }
 }

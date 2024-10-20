@@ -41,19 +41,13 @@ public class WebSecurityConfiguration {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(request -> request
-                                .requestMatchers(permitAllUri).permitAll()
-                                .anyRequest().hasRole("USER")
-//                        .anyRequest().permitAll()
+                    .requestMatchers(permitAllUri).permitAll()
+                    .anyRequest().hasRole("USER")
                 )
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource())
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-//                .csrf(CsrfConfigurer::disable)
-//                .csrf(csrf -> csrf
-//                        .ignoringRequestMatchers("/stores")
-//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                )
                 .headers(header -> header.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
                 .httpBasic(HttpBasicConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement
@@ -69,14 +63,12 @@ public class WebSecurityConfiguration {
                         .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-
         return httpSecurity.build();
     }
 
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://www.niornear.store", "http://54.180.155.131:8080"));
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");

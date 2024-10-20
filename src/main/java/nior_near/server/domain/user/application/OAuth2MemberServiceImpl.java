@@ -24,34 +24,31 @@ public class OAuth2MemberServiceImpl extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(request);
 
-        String oauthClientName = request.getClientRegistration().getClientName();
-        String accessToken = request.getAccessToken().getTokenValue();
-        String refreshToken = null;
-
-        log.info("accessToken expiresin : " + request.getAccessToken().getExpiresAt());
-        log.info("accessToken issued : " + request.getAccessToken().getIssuedAt());
-
-        Member member = null;
-
-        if (oauthClientName.equals("naver")) {
+        // naver OAuth 처리
+        if (request.getClientRegistration().getRegistrationId().equals("naver")) {
             Map<String, String> responseMap = (Map<String, String>) oAuth2User.getAttributes().get("response");
-            log.info(responseMap.toString());
 
-            String userId = "naver_" + responseMap.get("id");
-            String nickname = responseMap.get("name");
-            String profile_img = responseMap.get("profile_image");
-            String email = responseMap.get("email");
-            String phone = responseMap.get("mobile");
+            Member member = memberRepository.findByName(responseMap.get("id"))
+                    .orElseGet(() -> {
+                        Member newMember = new Member(
+                                responseMap.get("id"),
+                                responseMap.get("name"),
+                                responseMap.get("profile_image"),
+                                responseMap.get("email"),
+                                responseMap.get("mobile"),
+                                "naver"
+                        );
+                        return memberRepository.save(newMember);
+                    });
 
-            member = new Member(userId, nickname, profile_img, email, phone, "naver");
+            return new CustomOAuth2Member(
+                    member.getId(),
+                    member.getName(),
+                    member.getEmail(),
+                    "USER"
+            );
         }
-
-        if(memberService.findMemberByName(member.getName()) == null) {
-            memberRepository.save(member);
-        }
-
-        if (refreshToken == null) return new CustomOAuth2Member(oauthClientName + "_" + accessToken, null);
-        else return new CustomOAuth2Member(oauthClientName + "_" + accessToken, oauthClientName + "_" + refreshToken);
+        throw new OAuth2AuthenticationException("Unsupported OAuth2 provider");
     }
 
 }

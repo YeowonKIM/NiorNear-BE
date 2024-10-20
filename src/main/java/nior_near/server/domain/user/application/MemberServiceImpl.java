@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,10 +100,20 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    public Optional<Member> findMemberById(Long userId) {
+        return memberRepository.findById(userId);
+    }
+
+    /**
+        [deprecated]
+        소셜 로그인이 여러개일때 사용
+     */
     public String retrieveName(HttpServletRequest request) {
 
         String hasPrefixAccessToken = tokenParser.parseBearerToken(request);
-        log.info(request.toString());
+        log.info("~~~~~~~~~~~~~~~~~");
+        log.info(hasPrefixAccessToken);
+
 
         String name = null;
         if (hasPrefixAccessToken.startsWith("naver_")) {

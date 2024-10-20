@@ -5,6 +5,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.user.entity.CustomOAuth2Member;
 import nior_near.server.global.auth.jwt.JwtProvider;
 import org.springframework.http.ResponseCookie;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtProvider jwtProvider;
 
@@ -27,22 +29,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     ) throws IOException, ServletException {
         CustomOAuth2Member oAuth2Member = (CustomOAuth2Member) authentication.getPrincipal();
 
-        String accessToken = oAuth2Member.getAccessToken();
-        String refreshToken = oAuth2Member.getRefreshToken();
+        Long userId = oAuth2Member.getId();
+        String jwtToken = jwtProvider.createToken(userId);
 
-        Cookie cookie = new Cookie("access_token", accessToken);
-        cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-//        cookie.setDomain("54.180.155.131:8080");
-
-        response.addCookie(cookie);
-
-        // SameSite 속성 추가
-        String cookieHeader = String.format("access_token=%s; Max-Age=%d; Path=/; HttpOnly;",
-                accessToken, 60 * 60 * 24 * 7);
-        response.setHeader("Set-Cookie", cookieHeader);
+        response.setHeader("Authorization", "Bearer " + jwtToken);
+        response.sendRedirect("http://localhost:3000/auth/oauth-response?token=" + jwtToken);
     }
 
 }

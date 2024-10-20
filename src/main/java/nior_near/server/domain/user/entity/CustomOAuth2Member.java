@@ -13,8 +13,10 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 public class CustomOAuth2Member implements OAuth2User {
-    private String accessToken;
-    private String refreshToken;
+    private Long id;
+    private String name;
+    private String email;
+    private String role;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -28,6 +30,6 @@ public class CustomOAuth2Member implements OAuth2User {
 
     @Override
     public String getName() {
-        return this.accessToken;
+        return this.name;
     }
 }
