@@ -47,3 +47,10 @@ application-rds.properties
 application-iamport.properties
 application-sms.properties
 application-ssl.properties
+
+# build scripts
+src/main/resources/scripts/profile.sh
+src/main/resources/scripts/stop.sh
+src/main/resources/scripts/start.sh
+src/main/resources/scripts/health.sh
+src/main/resources/scripts/switch.sh
