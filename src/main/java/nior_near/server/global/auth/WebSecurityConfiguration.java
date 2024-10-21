@@ -61,12 +61,7 @@ public class WebSecurityConfiguration {
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // https 적용때문에 추가
-                // X-Forwarded-Proto 헤더가 있으면 HTTPS 를 강제하게 만들어줌
-                .requiresChannel(channelRequestMatcherRegistry -> channelRequestMatcherRegistry.requestMatchers(
-                        request -> request.getHeader("X-Forwarded-Proto") != null
-                ).requiresSecure());
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
