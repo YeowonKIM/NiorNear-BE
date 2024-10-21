@@ -6,6 +6,6 @@ import nior_near.server.global.common.BaseResponseDto;
 
 public interface OrderCommandService {
 
-    BaseResponseDto<OrderAddResponseDto> addOrder(Long memberId, OrderAddRequestDto orderAddRequestDto);
+    BaseResponseDto<OrderAddResponseDto> addOrder(String memberName, OrderAddRequestDto orderAddRequestDto);
 
 }

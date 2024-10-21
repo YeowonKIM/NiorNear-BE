@@ -9,6 +9,8 @@ import nior_near.server.domain.order.dto.request.OrderAddRequestDto;
 import nior_near.server.domain.order.dto.response.OrderAddResponseDto;
 import nior_near.server.domain.order.dto.response.OrderGetResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,27 +23,15 @@ public class OrderController {
     private final OrderQueryService orderQueryService;
 
     @PostMapping
-    public BaseResponseDto<OrderAddResponseDto> addOrder(@Valid @ModelAttribute OrderAddRequestDto orderAddRequestDto) {
+    public BaseResponseDto<OrderAddResponseDto> addOrder(@Valid @ModelAttribute OrderAddRequestDto orderAddRequestDto, @AuthenticationPrincipal UserDetails userDetails) {
 
-        /**
-         * TODO: 추후에 accessToken 에서 받아올 정보
-         */
-//        String memberName = memberService.retrieveName(request);
-        Long memberId = 11L;
-
-        return orderCommandService.addOrder(memberId, orderAddRequestDto);
+        return orderCommandService.addOrder(userDetails.getUsername(), orderAddRequestDto);
 
     }
 
     @GetMapping("/{orderId}")
-    public BaseResponseDto<OrderGetResponseDto> getOrder(@PathVariable("orderId") Long orderId) {
+    public BaseResponseDto<OrderGetResponseDto> getOrder(@PathVariable("orderId") Long orderId, @AuthenticationPrincipal UserDetails userDetails) {
 
-        /**
-         * TODO: 추후에 accessToken 에서 받아올 정보
-         */
-//        String memberName = memberService.retrieveName(request);
-        Long memberId = 11L;
-
-        return orderQueryService.getOrder(memberId, orderId);
+        return orderQueryService.getOrder(userDetails.getUsername(), orderId);
     }
 }
