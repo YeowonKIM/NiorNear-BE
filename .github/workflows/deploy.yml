@@ -41,8 +41,8 @@ jobs:
         run: |
           ./gradlew clean build
 
-#      - name: 빌드된 파일 이름 변경
-#        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+      - name: 빌드된 파일 이름 변경
+        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
 
       - name: SCP 로 EC2 에 파일 전송
         uses: appleboy/scp-action@v0.1.7
@@ -50,7 +50,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: ./build/libs/*SNAPSHOT.jar
+          source: ./project.jar
+#          source: ./build/libs/*SNAPSHOT.jar
           target: ~/niornear/tobe
 
       - name: 서버 배포
@@ -62,7 +63,10 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
 
           script: |
-            cd ~/niornear/scripts
-            bash stop.sh
-            bash start.sh
-            bash health.sh
+            rm -rf ~/niornear/current
+            mkdir ~/niornear/current
+            mv ~/niornear/tobe/project.jar ~/niornear/current/project.jar
+            cd ~/niornear/current
+            sudo fuser -k -n tcp 443 || true
+            sudo nohup java -jar project.jar > ../output.log 2>&1 &
+            rm -rf ~/niornear/tobe
