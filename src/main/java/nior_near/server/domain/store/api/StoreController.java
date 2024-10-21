@@ -13,6 +13,8 @@ import nior_near.server.domain.store.dto.response.MenuAddResponseDto;
 import nior_near.server.domain.store.dto.response.PlaceRegionGetResponse;
 import nior_near.server.domain.store.dto.response.StoreResponseDto;
 import nior_near.server.global.common.BaseResponseDto;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,41 +29,23 @@ public class StoreController {
     private final StoreQueryService storeQueryService;
 
     @PostMapping("/near-company")
-    public BaseResponseDto<ChefRegistrationResponseDto> createCompanyStore(@Valid @ModelAttribute CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> createCompanyStore(@Valid @ModelAttribute CompanyChefRegistrationRequestDto companyChefRegistrationRequestDto, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        /**
-         * TODO: 추후에 accessToken 에서 받아올 정보
-         */
-//        String memberName = memberService.retrieveName(request);
-//        Long memberId = 11L;
-
-        return storeCommandService.registerCompanyChef(companyChefRegistrationRequestDto.getMemberId(), companyChefRegistrationRequestDto);
+        return storeCommandService.registerCompanyChef(userDetails.getUsername(), companyChefRegistrationRequestDto);
 
     }
 
     @PostMapping("/freelance")
-    public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@Valid @ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto) throws IOException {
+    public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@Valid @ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        /**
-         * TODO: 추후에 accessToken 에서 받아올 정보
-         */
-//        String memberName = memberService.retrieveName(request);
-//        Long memberId = 11L;
-
-        return storeCommandService.registerFreelanceChef(freelanceChefRegistrationRequestDto.getMemberId(), freelanceChefRegistrationRequestDto);
+        return storeCommandService.registerFreelanceChef(userDetails.getUsername(), freelanceChefRegistrationRequestDto);
 
     }
 
     @PostMapping("/{storeId}/menu")
-    public BaseResponseDto<MenuAddResponseDto> addMenu(@Valid @ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId) throws IOException {
+    public BaseResponseDto<MenuAddResponseDto> addMenu(@Valid @ModelAttribute MenuAddRequestDto menuAddRequestDto, @PathVariable("storeId") Long storeId, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        /**
-         * TODO: 추후에 accessToken 에서 받아올 정보
-         */
-//        String memberName = memberService.retrieveName(request);
-//        Long memberId = 11L;
-
-        return storeCommandService.addMenu(storeId, menuAddRequestDto.getMemberId(), menuAddRequestDto);
+        return storeCommandService.addMenu(storeId, userDetails.getUsername(), menuAddRequestDto);
 
     }
 
