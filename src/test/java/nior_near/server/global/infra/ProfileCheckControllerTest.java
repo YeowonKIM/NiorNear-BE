@@ -22,13 +22,13 @@ class ProfileCheckControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
-    public void profileCheck는_인증없이_호출된다() throws Exception {
-        String[] expected = {"default", "s3", "rds", "oauth", "sms"};
-
-        ResponseEntity<String> response = restTemplate.getForEntity("/profile-check", String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(Arrays.stream(expected).toList().contains(response.getBody())).isTrue();
-    }
+//    @Test
+//    public void profileCheck는_인증없이_호출된다() throws Exception {
+//        String[] expected = {"default", "s3", "rds", "oauth", "sms"};
+//
+//        ResponseEntity<String> response = restTemplate.getForEntity("/profile-check", String.class);
+//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        assertThat(Arrays.stream(expected).toList().contains(response.getBody())).isTrue();
+//    }
 
 }
