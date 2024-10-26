@@ -3,12 +3,16 @@ package nior_near.server.domain.store.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nior_near.server.domain.order.entity.Place;
+import nior_near.server.domain.store.dto.response.ChefRegistrationInfoResponseDto;
 import nior_near.server.domain.store.dto.response.PlaceRegionGetResponse;
 import nior_near.server.domain.store.dto.response.StoreResponseDto;
 import nior_near.server.domain.store.entity.*;
 import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.PlaceRepository;
 import nior_near.server.domain.store.repository.StoreRepository;
+import nior_near.server.domain.user.entity.Member;
+import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
+import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.BaseResponseDto;
 import nior_near.server.global.common.ResponseCode;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
     private final StoreRepository storeRepository;
     private final PlaceRepository placeRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public BaseResponseDto<StoreResponseDto> getStore(Long storeId) {
@@ -58,6 +63,17 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         return BaseResponseDto.onSuccess(PlaceRegionGetResponse.builder().regionId(place.getRegion().getId()).build(), ResponseCode.OK);
 
+    }
+
+    @Override
+    public BaseResponseDto<ChefRegistrationInfoResponseDto> getChefRegistrationInfo(String username) {
+        Member member = memberRepository.findByName(username).orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
+
+        ChefRegistrationInfoResponseDto chefRegistrationInfoResponseDto =
+                ChefRegistrationInfoResponseDto.builder().name(member.getNickname())
+                                                            .phone(member.getPhone()).build();
+
+        return BaseResponseDto.onSuccess(chefRegistrationInfoResponseDto, ResponseCode.OK);
     }
 
 }
