@@ -57,7 +57,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
         Store store = storeRepository.save(
                 Store.builder()
-                .name(companyChefRegistrationRequestDto.getName())
+                .name(member.getName())
                 .title(companyChefRegistrationRequestDto.getShortDescription())
                 .introduction(companyChefRegistrationRequestDto.getDetailedDescription())
                 .profileImage(member.getProfileImage())
@@ -108,7 +108,7 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         // 1. store 저장
         Store store = storeRepository.save(
                 Store.builder()
-                        .name(freelanceChefRegistrationRequestDto.getName())
+                        .name(member.getName())
                         .title(freelanceChefRegistrationRequestDto.getShortDescription())
                         .introduction(freelanceChefRegistrationRequestDto.getDetailedDescription())
                         .profileImage(member.getProfileImage())
