@@ -83,6 +83,7 @@ jobs:
             mv ./build/libs/*SNAPSHOT.jar /home/ubuntu/niornear/deploy/project.jar
             cd /home/ubuntu/niornear/deploy
             sudo scp -i niornear-server.pem project.jar ubuntu@43.202.33.58:/home/ubuntu/niornear/tobe
+            echo "yes"
 
 #          script: |
 #            cd /home/ubuntu/niornear-be
