@@ -85,23 +85,6 @@ jobs:
             sudo scp -i niornear-server.pem project.jar ubuntu@43.202.33.58:/home/ubuntu/niornear/tobe
             echo "yes"
 
-#          script: |
-#            cd /home/ubuntu/niornear-be
-#            git pull origin main
-#
-#            echo "$APPLICATION_PROPERTIES_S3" > src/main/resources/application-s3.properties
-#            echo "$APPLICATION_PROPERTIES_iamport" > src/main/resources/application-iamport.properties
-#            echo "$APPLICATION_PROPERTIES_oauth" > src/main/resources/application-oauth.properties
-#            echo "$APPLICATION_PROPERTIES_rds" > src/main/resources/application-rds.properties
-#            echo "$APPLICATION_PROPERTIES_sms" > src/main/resources/application-sms.properties
-#            echo "$APPLICATION_PROPERTIES_ssl" > src/main/resources/application-ssl.properties
-#            echo "$EC2_PRIVATE_KEY" > /home/ubuntu/niornear/deploy/niornear-server.pem
-#
-#            ./gradlew clean build
-#            mv ./build/libs/*SNAPSHOT.jar /home/ubuntu/niornear/deploy/project.jar
-#            cd /home/ubuntu/niornear/deploy
-#            sudo scp -i niornear-server.pem project.jar ubuntu@43.202.33.58:/home/ubuntu/niornear/tobe
-
       - name: 서버 배포
         uses: appleboy/ssh-action@v1.0.3 # 사용할 라이브러리 명시
 
