@@ -74,10 +74,12 @@ jobs:
             APPLICATION_PROPERTIES_rds
             APPLICATION_PROPERTIES_sms
             APPLICATION_PROPERTIES_ssl
+            EC2_PRIVATE_KEY
           script_stop: true
           script: |
             cd /home/ubuntu/niornear-be
             git pull origin main
+            
             echo "$APPLICATION_PROPERTIES_S3" > src/main/resources/application-s3.properties
             echo "$APPLICATION_PROPERTIES_iamport" > src/main/resources/application-iamport.properties
             echo "$APPLICATION_PROPERTIES_oauth" > src/main/resources/application-oauth.properties
@@ -85,6 +87,7 @@ jobs:
             echo "$APPLICATION_PROPERTIES_sms" > src/main/resources/application-sms.properties
             echo "$APPLICATION_PROPERTIES_ssl" > src/main/resources/application-ssl.properties
             echo "$EC2_PRIVATE_KEY" > /home/ubuntu/niornear/deploy/niornear-server.pem
+            
             ./gradlew clean build
             mv ./build/libs/*SNAPSHOT.jar /home/ubuntu/niornear/deploy/project.jar
             cd /home/ubuntu/niornear/deploy
