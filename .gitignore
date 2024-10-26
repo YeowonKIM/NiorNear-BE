@@ -54,3 +54,4 @@ src/main/resources/scripts/stop.sh
 src/main/resources/scripts/start.sh
 src/main/resources/scripts/health.sh
 src/main/resources/scripts/switch.sh
+.DS_Store
