@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class CompanyChefRegistrationRequestDto {
-    @NotBlank(message = "이름을 입력해주세요.")
-    private String name;
     @NotBlank(message = "요리사님을 설명하는 짧은 소개를 입력해주세요.")
     private String shortDescription; // title
     @NotBlank(message = "요리사님을 설명하는 자세한 소개를 입력해주세요.")

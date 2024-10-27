@@ -8,10 +8,7 @@ import nior_near.server.domain.store.application.StoreQueryService;
 import nior_near.server.domain.store.dto.request.CompanyChefRegistrationRequestDto;
 import nior_near.server.domain.store.dto.request.FreelanceChefRegistrationRequestDto;
 import nior_near.server.domain.store.dto.request.MenuAddRequestDto;
-import nior_near.server.domain.store.dto.response.ChefRegistrationResponseDto;
-import nior_near.server.domain.store.dto.response.MenuAddResponseDto;
-import nior_near.server.domain.store.dto.response.PlaceRegionGetResponse;
-import nior_near.server.domain.store.dto.response.StoreResponseDto;
+import nior_near.server.domain.store.dto.response.*;
 import nior_near.server.global.common.BaseResponseDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +36,13 @@ public class StoreController {
     public BaseResponseDto<ChefRegistrationResponseDto> createFreelanceStore(@Valid @ModelAttribute FreelanceChefRegistrationRequestDto freelanceChefRegistrationRequestDto, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
         return storeCommandService.registerFreelanceChef(userDetails.getUsername(), freelanceChefRegistrationRequestDto);
+
+    }
+
+    @GetMapping("/chef-registration-info")
+    public BaseResponseDto<ChefRegistrationInfoResponseDto> getChefRegistrationInfo(@AuthenticationPrincipal UserDetails userDetails) {
+
+        return storeQueryService.getChefRegistrationInfo(userDetails.getUsername());
 
     }
 
