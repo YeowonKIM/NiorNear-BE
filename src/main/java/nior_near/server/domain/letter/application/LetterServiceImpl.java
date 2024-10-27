@@ -12,6 +12,7 @@ import nior_near.server.domain.user.entity.Member;
 import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.common.ResponseCode;
+import nior_near.server.global.util.SmsService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,12 @@ public class LetterServiceImpl implements LetterService {
 
     private final LetterRepository letterRepository;
     private final MemberRepository memberRepository;
+    private final SmsService smsService;
 
     @Override
-    public List<LetterResponseDto> getAllLetters(int page, int limit) {
+    public List<LetterResponseDto> getAllLetters(int page, int limit, String memberName) {
 
-        long memberId = 11L;
-        /*
         Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-         */
-
-        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         LocalDateTime startDate = LocalDateTime.now().minusYears(1);
@@ -53,16 +49,10 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional
-    public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto) {
+    public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto, String memberName) {
 
-        long memberId = 11L;
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-        /*
         Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-
-         */
 
         Member receiver = memberRepository.findById(thankLetterDto.getReceiverId())
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
@@ -76,6 +66,8 @@ public class LetterServiceImpl implements LetterService {
                 .build();
 
         Letter updatedLetter = letterRepository.save(letter);
+
+        smsService.sendLetterMessage(member, receiver, thankLetterDto.getContent());
 
         return ThankLetterResponseDto.builder()
                 .letterId(updatedLetter.getId())
