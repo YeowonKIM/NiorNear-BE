@@ -24,21 +24,6 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash # (6).권한 부여
 
-      - name: Build with Gradle
-        run: ./gradlew clean build -x test
-        shell: bash # (7).build 시작
-
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00" # (8).build 시점의 시간확보
-
-      - name: Show Current Time
-        run: echo "CurrentTime=$"
-        shell: bash # (9).확보한 시간 보여주기
-
       - name: application.properties 생성
         env:
           APPLICATION_PROPERTIES_S3: ${{ secrets.APPLICATION_PROPERTIES_S3 }}
@@ -87,3 +72,4 @@ jobs:
             cd ~/niornear/current
             sudo fuser -k -n tcp 443 || true
             sudo nohup java -jar project.jar > ../output.log 2>&1 &
+            rm -rf /home/ubuntu/niornear/tobe
