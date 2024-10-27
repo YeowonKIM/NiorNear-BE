@@ -21,7 +21,7 @@ public class ProfileCheckController {
 
         String defaultProfiles = profiles.isEmpty() ? "default" : profiles.get(0);
 
-        return profiles.stream().filter(portProfiles::contains).findAny().orElse(defaultProfiles);
+        return profiles.stream().filter(portProfiles::contains).findAny().orElse(defaultProfiles) + " good!";
 
     }
 
