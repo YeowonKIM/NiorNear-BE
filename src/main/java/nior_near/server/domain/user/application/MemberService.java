@@ -1,6 +1,5 @@
 package nior_near.server.domain.user.application;
 
-import jakarta.servlet.http.HttpServletRequest;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
 import nior_near.server.domain.user.dto.response.MyPaymentSummaryResponseDto;
 import nior_near.server.domain.user.entity.Member;
@@ -10,9 +9,9 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    MyMemberResponseDto getMyProfile();
+    MyMemberResponseDto getMyProfile(String memberName);
 
-    List<MyPaymentSummaryResponseDto> getMyPaymentSummary();
+    List<MyPaymentSummaryResponseDto> getMyPaymentSummary(String memberName);
 
     public Member findMemberByName(String name);
 
