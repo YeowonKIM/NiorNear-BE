@@ -19,40 +19,71 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: application.properties 생성
+#      - name: application.properties 생성
+#        env:
+#          APPLICATION_PROPERTIES_S3: ${{ secrets.APPLICATION_PROPERTIES_S3 }}
+#          APPLICATION_PROPERTIES_iamport: ${{ secrets.APPLICATION_PROPERTIES_IMPORT }}
+#          APPLICATION_PROPERTIES_oauth: ${{ secrets.APPLICATION_PROPERTIES_OAUTH }}
+#          APPLICATION_PROPERTIES_rds: ${{ secrets.APPLICATION_PROPERTIES_RDS }}
+#          APPLICATION_PROPERTIES_sms: ${{ secrets.APPLICATION_PROPERTIES_SMS }}
+#          APPLICATION_PROPERTIES_ssl: ${{ secrets.APPLICATION_PROPERTIES_SSL }}
+#
+#        run: |
+#          echo "$APPLICATION_PROPERTIES_S3" > ./src/main/resources/application-s3.properties
+#          echo "$APPLICATION_PROPERTIES_iamport" > ./src/main/resources/application-iamport.properties
+#          echo "$APPLICATION_PROPERTIES_oauth" > ./src/main/resources/application-oauth.properties
+#          echo "$APPLICATION_PROPERTIES_rds" > ./src/main/resources/application-rds.properties
+#          echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-sms.properties
+#          echo "$APPLICATION_PROPERTIES_ssl" > ./src/main/resources/application-ssl.properties
+
+
+#      - name: 빌드 및 테스트
+#        run: |
+#          ./gradlew clean build
+
+#      - name: 빌드된 파일 이름 변경
+#        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+
+#      - name: SCP 로 EC2 에 파일 전송
+#        uses: appleboy/scp-action@v0.1.7
+#        with:
+#          host: ${{ secrets.EC2_HOST }}
+#          username: ${{ secrets.EC2_USERNAME }}
+#          key: ${{ secrets.EC2_PRIVATE_KEY }}
+#          source: ./project.jar
+##          source: ./build/libs/*SNAPSHOT.jar
+#          target: ~/niornear/tobe
+      - name: bastion-server 에서 빌드하고, 빌드된 파일 운영 서버에 scp 로 전송
+        uses: appleboy/ssh-action@v1.0.3
         env:
           APPLICATION_PROPERTIES_S3: ${{ secrets.APPLICATION_PROPERTIES_S3 }}
-          APPLICATION_PROPERTIES_import: ${{ secrets.APPLICATION_PROPERTIES_IMPORT }}
+          APPLICATION_PROPERTIES_iamport: ${{ secrets.APPLICATION_PROPERTIES_IMPORT }}
           APPLICATION_PROPERTIES_oauth: ${{ secrets.APPLICATION_PROPERTIES_OAUTH }}
           APPLICATION_PROPERTIES_rds: ${{ secrets.APPLICATION_PROPERTIES_RDS }}
           APPLICATION_PROPERTIES_sms: ${{ secrets.APPLICATION_PROPERTIES_SMS }}
           APPLICATION_PROPERTIES_ssl: ${{ secrets.APPLICATION_PROPERTIES_SSL }}
-
-        run: |
-          echo "$APPLICATION_PROPERTIES_S3" > ./src/main/resources/application-s3.properties
-          echo "$APPLICATION_PROPERTIES_import" > ./src/main/resources/application-iamport.properties
-          echo "$APPLICATION_PROPERTIES_oauth" > ./src/main/resources/application-oauth.properties
-          echo "$APPLICATION_PROPERTIES_rds" > ./src/main/resources/application-rds.properties
-          echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-sms.properties
-          echo "$APPLICATION_PROPERTIES_ssl" > ./src/main/resources/application-ssl.properties
-
-
-      - name: 빌드 및 테스트
-        run: |
-          ./gradlew clean build
-
-      - name: 빌드된 파일 이름 변경
-        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
-
-      - name: SCP 로 EC2 에 파일 전송
-        uses: appleboy/scp-action@v0.1.7
+          EC2_PRIVATE_KEY: ${{secrets.EC2_PRIVATE_KEY}}
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.EC2_BASTION_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: ./project.jar
-#          source: ./build/libs/*SNAPSHOT.jar
-          target: ~/niornear/tobe
+          envs: |
+            APPLICATION_PROPERTIES_S3
+            APPLICATION_PROPERTIES_import
+            APPLICATION_PROPERTIES_oauth
+            APPLICATION_PROPERTIES_rds
+            APPLICATION_PROPERTIES_sms
+            APPLICATION_PROPERTIES_ssl
+            EC2_PRIVATE_KEY
+          script_stop: true
+          script: |
+            cd /home/ubuntu/niornear-be
+            git pull origin main
+            ./gradlew clean build
+            mv ./build/libs/*SNAPSHOT.jar /home/ubuntu/niornear/deploy/project.jar
+            cd /home/ubuntu/niornear/deploy
+            sudo scp -i niornear-server.pem project.jar ubuntu@43.202.33.58:/home/ubuntu/niornear/tobe
+            echo "yes"
 
       - name: 서버 배포
         uses: appleboy/ssh-action@v1.0.3 # 사용할 라이브러리 명시
@@ -69,4 +100,3 @@ jobs:
             cd ~/niornear/current
             sudo fuser -k -n tcp 443 || true
             sudo nohup java -jar project.jar > ../output.log 2>&1 &
-            rm -rf ~/niornear/tobe
