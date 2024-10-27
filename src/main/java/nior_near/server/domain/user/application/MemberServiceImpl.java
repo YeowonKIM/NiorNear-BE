@@ -45,21 +45,15 @@ public class MemberServiceImpl implements MemberService {
     private final TokenParser tokenParser;
 
     @Override
-    public MyMemberResponseDto getMyProfile() {
+    public MyMemberResponseDto getMyProfile(String memberName) {
 
         final int MY_PAGE_LETTER_LIMIT = 3;
         final int DEFAULT_PAGE = 0;
 
-        /*
         Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-         */
 
-        long memberId = 11L;
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-
-        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT);
+        List<LetterResponseDto> letters = letterService.getAllLetters(DEFAULT_PAGE, MY_PAGE_LETTER_LIMIT, memberName);
 
         return MyMemberResponseDto.builder()
                 .memberId(member.getId())
@@ -71,10 +65,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MyPaymentSummaryResponseDto> getMyPaymentSummary() {
+    public List<MyPaymentSummaryResponseDto> getMyPaymentSummary(String memberName) {
 
-        long memberId = 11L;
-        Member member = memberRepository.findById(memberId)
+        Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         List<Order> orders = orderRepository.findOrderByMemberId(member.getId());

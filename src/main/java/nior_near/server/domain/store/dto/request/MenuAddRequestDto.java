@@ -19,10 +19,4 @@ public class MenuAddRequestDto {
     private String menuIntroduction;
     @NotNull(message = "메뉴 사진을 업로드 해주세요.")
     private MultipartFile menuImage;
-    /**
-     * FIXME: 추후에 로그인 기능 완성되면 빠질 것
-     */
-    @NotNull
-    private Long memberId;
-
 }

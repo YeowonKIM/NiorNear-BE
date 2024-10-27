@@ -31,15 +31,9 @@ public class LetterServiceImpl implements LetterService {
     private final SmsService smsService;
 
     @Override
-    public List<LetterResponseDto> getAllLetters(int page, int limit) {
+    public List<LetterResponseDto> getAllLetters(int page, int limit, String memberName) {
 
-        long memberId = 11L;
-        /*
         Member member = memberRepository.findByName(memberName)
-                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-         */
-
-        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
 
         LocalDateTime startDate = LocalDateTime.now().minusYears(1);
@@ -55,16 +49,10 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     @Transactional
-    public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto) {
+    public ThankLetterResponseDto registerThankLetter(ThankLetterRequestDto thankLetterDto, String memberName) {
 
-        long memberId = 11L;
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-        /*
         Member member = memberRepository.findByName(memberName)
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
-
-         */
 
         Member receiver = memberRepository.findById(thankLetterDto.getReceiverId())
                 .orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));

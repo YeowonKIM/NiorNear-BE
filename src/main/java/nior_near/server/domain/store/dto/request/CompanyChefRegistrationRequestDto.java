@@ -27,9 +27,4 @@ public class CompanyChefRegistrationRequestDto {
     private Long regionId;
     @NotBlank(message = "주문 완료 시 고객에게 보여질 문구를 입력해주세요.")
     private String message;
-    /**
-     * FIXME: 추후에 로그인 기능 완성되면 빠질 것
-     */
-    @NotNull
-    private Long memberId;
 }
