@@ -15,7 +15,7 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class TokenParser {
-    private final String[] skipUrls = {"/h2-console/**"};
+    private final String[] skipUrls = {"/h2-console/**", "/home/**"};
     public String parseBearerToken(HttpServletRequest request) {
         if (isSkipUrl(request.getRequestURI())) {
             return null;
