@@ -29,12 +29,12 @@ jobs:
           APPLICATION_PROPERTIES_SSL_RELEASE: ${{ secrets.APPLICATION_PROPERTIES_SSL_RELEASE }}
 
         run: |
-          echo "$APPLICATION_PROPERTIES_S3_RELEASE" > ./src/main/resources/application-s3.properties
-          echo "$APPLICATION_PROPERTIES_iamport" > ./src/main/resources/application-iamport.properties
-          echo "$APPLICATION_PROPERTIES_oauth" > ./src/main/resources/application-oauth.properties
-          echo "$APPLICATION_PROPERTIES_RDS_RELEASE" > ./src/main/resources/application-rds.properties
-          echo "$APPLICATION_PROPERTIES_sms" > ./src/main/resources/application-sms.properties
-          echo "$APPLICATION_PROPERTIES_SSL_RELEASE" > ./src/main/resources/application-ssl.properties
+          echo "$APPLICATION_PROPERTIES_S3_RELEASE" > ./application-s3.properties
+          echo "$APPLICATION_PROPERTIES_iamport" > ./application-iamport.properties
+          echo "$APPLICATION_PROPERTIES_oauth" > ./application-oauth.properties
+          echo "$APPLICATION_PROPERTIES_RDS_RELEASE" > ./application-rds.properties
+          echo "$APPLICATION_PROPERTIES_sms" > ./application-sms.properties
+          echo "$APPLICATION_PROPERTIES_SSL_RELEASE" > ./application-ssl.properties
 
       - name: SCP 로 EC2 에 properties 파일 전송
         uses: appleboy/scp-action@v0.1.7
@@ -42,7 +42,7 @@ jobs:
           host: ${{ secrets.EC2_BASTION_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: "./src/main/resources/*.properties"
+          source: "./*.properties"
           target: "/home/ubuntu/BE/src/main/resources"
 
       - name: bastion-server 에서 빌드하고, 빌드된 파일 운영 서버에 scp 로 전송
