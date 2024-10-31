@@ -64,7 +64,7 @@ public class HomeServiceImpl implements HomeService {
                             .profileImage(store.getProfileImage())
                             .name(store.getName())
                             .tags(tags)
-                            .introduction(store.getIntroduction())
+                            .title(store.getTitle())
                             .temperature(store.getTemperature())
                             .reviewCount(reviewCount)
                             .build();

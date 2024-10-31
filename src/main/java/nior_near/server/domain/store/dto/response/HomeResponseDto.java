@@ -26,7 +26,7 @@ public class HomeResponseDto {
         private String profileImage;
         private String name;
         private List<String> tags;
-        private String introduction;
+        private String title;
         private double temperature;
         private int reviewCount;
     }
