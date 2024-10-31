@@ -140,7 +140,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     private void sendChefLetterToMember(Member sender, Member receiver, String letterImageLink) {
 
         Letter letter = Letter.builder()
-                .senderName(sender.getName())
+                .senderName(sender.getNickname())
                 .imageLink(letterImageLink)
                 .status(LetterStatus.UNREAD)
                 .sender(sender)
