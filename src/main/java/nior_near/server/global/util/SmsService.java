@@ -37,7 +37,7 @@ public class SmsService {
 
     public void sendMessage(Order order) {
         String phoneNumber = order.getPhone().replaceAll("-", "");  // 반드시 01012345678 형식
-        String name = order.getMember().getName();
+        String name = order.getMember().getNickname();
         String datetime = order.getCreatedAt().toString();
         String orderNo = order.getId().toString();
         String text = "[니어니어] 주문 완료 안내\n" + "\n" +
@@ -63,8 +63,8 @@ public class SmsService {
 //        String cookName = order.getStore().getMember().getName();
 //        String clientName = order.getMember().getName();
         String text = "[니어니어] 편지가 도착했어요 💌\n" + "\n" +
-                "안녕하세요, " + receiver.getName() + " 요리사님.\n" + "\n" +
-                "요리사님의 음식을 주문한 " + sender.getName() + " 고객님으로부터 따뜻한 편지가 도착했습니다. \n" + "\n" +
+                "안녕하세요, " + receiver.getNickname() + " 요리사님.\n" + "\n" +
+                "요리사님의 음식을 주문한 " + sender.getNickname() + " 고객님으로부터 따뜻한 편지가 도착했습니다. \n" + "\n" +
                 "• 편지내용: \n" +
                 letterContent + "\n" + "\n" +
                 "니어니어 바로가기: https://www.niornear.store/main";

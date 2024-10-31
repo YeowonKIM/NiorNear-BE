@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService{
         return RequestPayDto.builder()
                 .orderUid(order.getOrderUID())
                 .itemName(orderUid)
-                .buyerName(order.getMember().getName())
+                .buyerName(order.getMember().getNickname())
                 .paymentPrice(order.getTotalPrice())
                 .buyerEmail(order.getMember().getEmail())
                 .buyerPhone(order.getPhone())
@@ -108,7 +108,7 @@ public class PaymentServiceImpl implements PaymentService{
                 .name("NiorNear 주문 결제")
                 .amount(order.getTotalPrice())
                 .buyerEmail(member.getEmail())
-                .buyerName(member.getName())
+                .buyerName(member.getNickname())
                 .buyerTel(member.getPhone())
                 .build();
 
