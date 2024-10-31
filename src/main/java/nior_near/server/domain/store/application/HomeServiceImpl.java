@@ -27,20 +27,17 @@ public class HomeServiceImpl implements HomeService {
 
     @Transactional(readOnly = true)
     public HomeResponseDto getHome(Long memberId) {
-        memberId = 11L;
+        List<Store> stores = storeRepository.findAll();
+        Long regionId = null;
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new StoreHandler(ResponseCode.MEMBER_NOT_FOUND));
+        if (memberId != null) {
+            Member member = memberRepository.findById(memberId).get();
+            Region region = member.getRegion();
 
-        Long regionId = member.getRegion().getId();
-
-        List<Store> stores;
-
-        // 지역 선택이 없을 경우 모든 스토어를 가져옴
-        if (regionId == null) {
-            stores = storeRepository.findAll();
-            regionId = null;
-        } else {
-            stores = storeRepository.findByRegion_Id(regionId);
+            if (region != null) {
+                regionId = region.getId();
+                stores = storeRepository.findByRegion_Id(regionId);
+            }
         }
 
         // Chefs와 Stores 데이터를 구성
