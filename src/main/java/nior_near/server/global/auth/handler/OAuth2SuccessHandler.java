@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String jwtToken = jwtProvider.createToken(userId);
 
         response.setHeader("Authorization", "Bearer " + jwtToken);
-        response.sendRedirect("http://localhost:3000/auth/oauth-response?token=" + jwtToken);
+        response.sendRedirect("https://www.niornear.store/auth/oauth-response?token=" + jwtToken);
     }
 
 }
