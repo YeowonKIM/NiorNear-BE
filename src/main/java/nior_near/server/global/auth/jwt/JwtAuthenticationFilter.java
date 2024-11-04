@@ -66,9 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     securityContext.setAuthentication(authenticationToken);
                     SecurityContextHolder.setContext(securityContext);
-
-                    // 로그인 기록 남기기
-                    memberService.saveLoginHistory(member.get());
                 }
             }
         } catch (Exception e) {

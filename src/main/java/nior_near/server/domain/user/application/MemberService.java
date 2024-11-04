@@ -21,5 +21,5 @@ public interface MemberService {
 
     Optional<Member> findMemberById(Long userId);
 
-    void saveLoginHistory(Member member);
+    void saveLoginHistory(Long userId);
 }

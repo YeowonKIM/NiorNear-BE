@@ -101,9 +101,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void saveLoginHistory(Member member) {
+    public void saveLoginHistory(Long userId) {
+
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new MemberExceptionHandler(ResponseCode.MEMBER_NOT_FOUND));
+
         LoginHistory loginHistory = LoginHistory.builder().member(member).build();
         loginHistoryRepository.save(loginHistory);
+
     }
 
     /**
