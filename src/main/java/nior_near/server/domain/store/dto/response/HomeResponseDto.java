@@ -29,5 +29,6 @@ public class HomeResponseDto {
         private String title;
         private double temperature;
         private int reviewCount;
+        private String thumbnail;
     }
 }
