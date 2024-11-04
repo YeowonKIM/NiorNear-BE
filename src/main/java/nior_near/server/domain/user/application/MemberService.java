@@ -20,4 +20,6 @@ public interface MemberService {
 //    String retrieveName(HttpServletRequest request);
 
     Optional<Member> findMemberById(Long userId);
+
+    void saveLoginHistory(Member member);
 }

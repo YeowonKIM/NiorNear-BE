@@ -14,8 +14,10 @@ import nior_near.server.domain.store.exception.handler.StoreHandler;
 import nior_near.server.domain.store.repository.RegionRepository;
 import nior_near.server.domain.user.dto.response.MyMemberResponseDto;
 import nior_near.server.domain.user.dto.response.MyPaymentSummaryResponseDto;
+import nior_near.server.domain.user.entity.LoginHistory;
 import nior_near.server.domain.user.entity.Member;
 import nior_near.server.domain.user.exception.handler.MemberExceptionHandler;
+import nior_near.server.domain.user.repository.LoginHistoryRepository;
 import nior_near.server.domain.user.repository.MemberRepository;
 import nior_near.server.global.auth.dto.NaverAccessTokenInfoResponseDto;
 import nior_near.server.global.auth.jwt.TokenParser;
@@ -43,6 +45,7 @@ public class MemberServiceImpl implements MemberService {
     private final RegionRepository regionRepository;
     private final OrderRepository orderRepository;
     private final TokenParser tokenParser;
+    private final LoginHistoryRepository loginHistoryRepository;
 
     @Override
     public MyMemberResponseDto getMyProfile(String memberName) {
@@ -95,6 +98,12 @@ public class MemberServiceImpl implements MemberService {
 
     public Optional<Member> findMemberById(Long userId) {
         return memberRepository.findById(userId);
+    }
+
+    @Override
+    public void saveLoginHistory(Member member) {
+        LoginHistory loginHistory = LoginHistory.builder().member(member).build();
+        loginHistoryRepository.save(loginHistory);
     }
 
     /**
