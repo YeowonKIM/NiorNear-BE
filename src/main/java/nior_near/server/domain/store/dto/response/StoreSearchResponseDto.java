@@ -15,4 +15,5 @@ public class StoreSearchResponseDto {
     private String introduction;
     private double temperature;
     private int reviewCount;
+    private String thumbnail;
 }

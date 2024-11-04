@@ -187,8 +187,13 @@ public class StoreCommandServiceImpl implements StoreCommandService {
                         .build()
         );
 
+        // 메뉴를 가장 처음 등록한 것이 썸네일이 됨(하나를 저장한 후 개수가 1과 같으면 최초 저장이라고 봄)
+        if (store.getThumbnail() == null && menuRepository.findByStore(store).size() == 1) {
+            store.updateThumbnail(menu.getImageLink());
+        }
+
         // 메뉴 음식 사진 storeImage 에 등록해놓기 - store 조회할 때 필요
-         storeImageRepository.save(
+        storeImageRepository.save(
                 StoreImage.builder()
                         .store(store)
                         .imageLink(menu.getImageLink()).build()
