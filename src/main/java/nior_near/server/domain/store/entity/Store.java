@@ -82,4 +82,8 @@ public class Store extends Time {
         this.member = member;
         this.letter = letter;
     }
+
+    public void updateThumbnail(String imageLink) {
+        this.thumbnail = imageLink;
+    }
 }
