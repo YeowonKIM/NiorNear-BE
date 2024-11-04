@@ -64,6 +64,7 @@ public class HomeServiceImpl implements HomeService {
                             .title(store.getTitle())
                             .temperature(store.getTemperature())
                             .reviewCount(reviewCount)
+                            .thumbnail(store.getThumbnail())
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -96,6 +97,7 @@ public class HomeServiceImpl implements HomeService {
                             .introduction(store.getIntroduction())
                             .temperature(store.getTemperature())
                             .reviewCount(reviewCount)
+                            .thumbnail(store.getThumbnail())
                             .build();
                 })
                 .collect(Collectors.toList());
