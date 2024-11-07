@@ -128,7 +128,7 @@ public class PaymentServiceImpl implements PaymentService{
 
         if (requestDto.getStatus().equals(PaymentStatus.SUCCESS.getName())) {
             order.getPayment().updatePaymentStatus(PaymentStatus.OK);
-            smsService.sendMessage(order);
+//            smsService.sendMessage(order);
         }
 
         return BaseResponseDto.onSuccess(payStatusResponseDto, ResponseCode.OK);
